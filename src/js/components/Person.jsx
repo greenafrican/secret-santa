@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Input from "./Input";
+import Button from "./Button";
 
 class Person extends Component {
 
@@ -33,24 +34,26 @@ class Person extends Component {
             'justifyContent': 'space-between'
         };
         return (
-            <div className="form-group" style={myStyle}>
+            <div className="form-group person" style={myStyle}>
                 <Input
+                    className="name"
                     type="text"
                     id={`name_${personId}`}
                     name="name"
-                    placeholder="name"
+                    title="Name"
                     value={name}
                     handleChange={(e) => updatePeople(personId, e)}
                 />
                 <Input
+                    className="email"
                     type="email"
                     id={`email_${personId}`}
                     name="email"
-                    placeholder="email"
+                    title="Email"
                     value={email}
                     handleChange={(e) => updatePeople(personId, e)}
                 />
-                <button onClick={(e) => removePerson(personId, e)}>Remove Person</button>
+                <Button action={(e) => removePerson(personId, e)} title="-" />
             </div>)
     }
 };

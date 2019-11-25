@@ -1,0 +1,85 @@
+body {
+    background-color: #F38887;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.app-container {
+    background-color: white;
+    box-shadow: 4px 4px 16px rgba(0,0,0,0.14);
+    border-radius: 20px;
+    margin: 120px auto;
+    padding: 40px;
+    width: 600px;
+
+    .go {
+        width: 100%;
+
+        button {
+            margin: 0 25%;
+            width: 50%;
+
+            height: 100px;
+            background-color: #5F9CA9;
+            border-radius: 20px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 24px;
+        }
+    }
+
+    .people {
+        margin: 50px 0;
+        button {
+            height: 50px;
+            width: 50px;
+            background-color: rgba(230, 131, 113, 0.3);
+            border-radius: 25px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 24px;
+            margin: auto 0;
+        }
+
+        .people-title {
+            color: #BDBDBD;
+            text-transform: uppercase;
+        }
+
+        .add-people {
+
+            button {
+                background-color: rgba(76, 94, 79, 0.3);
+                margin-right: 12px;
+            }
+        }
+    }
+
+    .person {
+        display: flexbox;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        
+        .name {
+            width: 30%;
+        }
+        .email {
+            width: 50%;
+        }
+
+        label {
+            margin-bottom: 0px;
+            margin-top: 16px;
+        }
+
+        input {
+            display: inline-block;
+            font-size: 22px;
+            width: 100%;
+        }
+    }
+}
+

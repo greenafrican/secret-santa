@@ -26,7 +26,11 @@
   "dependencies": {
     "babel-preset-react": "^6.24.1",
     "classnames": "^2.2.6",
+    "css-loader": "^3.2.0",
+    "node-sass": "^4.13.0",
     "react": "^16.11.0",
-    "react-dom": "^16.11.0"
+    "react-dom": "^16.11.0",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.0"
   }
 }
