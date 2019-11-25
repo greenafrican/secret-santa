@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import classNames from 'classnames';
 import Input from "./Input";
 import Button from "./Button";
 
@@ -26,7 +27,7 @@ class Person extends Component {
     }
 
     render() {
-        const { personId, removePerson, updatePeople } = this.props;
+        const { className, personId, removePerson, type, updatePeople } = this.props;
         const { name, email } = this.state;
         const myStyle = {
             'display': 'flex',
@@ -34,13 +35,13 @@ class Person extends Component {
             'justifyContent': 'space-between'
         };
         return (
-            <div className="form-group person" style={myStyle}>
+            <div className={classNames("form-group person", className)} style={myStyle}>
                 <Input
                     className="name"
                     type="text"
                     id={`name_${personId}`}
                     name="name"
-                    title="Name"
+                    title={ type === 'creator' ? "Your Name" : "Name" }
                     value={name}
                     handleChange={(e) => updatePeople(personId, e)}
                 />
@@ -49,21 +50,27 @@ class Person extends Component {
                     type="email"
                     id={`email_${personId}`}
                     name="email"
-                    title="Email"
+                    title={ type === 'creator' ? "Your Email" : "Email" }
                     value={email}
                     handleChange={(e) => updatePeople(personId, e)}
                 />
-                <Button action={(e) => removePerson(personId, e)} title="-" />
+                <Button
+                    className={ type === 'creator' ? 'creator-btn' : 'person-btn'}
+                    action={(e) => type !== 'creator' && removePerson(personId, e)} 
+                    title="-"
+                />
             </div>)
     }
 };
 
 Person.propTypes = {
+    className: PropTypes.string,
     personId: PropTypes.number.isRequired,
     name: PropTypes.string,
     email: PropTypes.string,
     updatePeople: PropTypes.func.isRequired,
-    removePerson: PropTypes.func.isRequired,
+    removePerson: PropTypes.func,
+    type: PropTypes.string,
 };
 
 export default Person;

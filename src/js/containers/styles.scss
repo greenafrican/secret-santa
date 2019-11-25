@@ -30,7 +30,7 @@ body {
     }
 
     .people {
-        margin: 50px 0;
+        margin: 30px 0;
         button {
             height: 50px;
             width: 50px;
@@ -63,6 +63,10 @@ body {
         flex-wrap: wrap;
         justify-content: space-between;
         margin-bottom: 30px;
+
+        &.creator {
+            margin-bottom: 50px;
+        }
         
         .name {
             width: 30%;
@@ -80,6 +84,11 @@ body {
             display: inline-block;
             font-size: 22px;
             width: 100%;
+        }
+
+        .creator-btn {
+            opacity: 0;
+            cursor: default;
         }
     }
 }

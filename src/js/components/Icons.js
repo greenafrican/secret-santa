@@ -25,12 +25,12 @@ const Icons = (props) => {
     }
 
     const { left, top, width, height } = props.position;
-    const posBall = randomPos(left - 120, top - 180);
+    const posBall = randomPos(left - 120, top - 150);
     const posTree = randomPos(left + width - 150, top - 100);
-    const posHat = randomPos(left - 200, top + height / 2);
+    const posHat = randomPos(left - 240, top + height / 2 - 150);
     const posSnowflake = randomPos(left + width, top + height / 2);
-    const posStocking = randomPos(left-50, top + height);
-    const posCandy = randomPos(left + width - 150, top + height + 50);
+    const posStocking = randomPos(left-100, top + height-140);
+    const posCandy = randomPos(left + width - 150, top + height);
 
     console.log(props.position || {});
 

@@ -10,7 +10,15 @@ import './styles.scss';
 const originalState = {
     group: '',
     spend: 200.00,
+    creator: {
+        name: '',
+        email: ''
+    },
     people: [
+        {
+            name: '',
+            email: ''
+        },
         {
             name: '',
             email: ''
@@ -25,6 +33,7 @@ class App extends Component {
         this.state = Object.assign({}, originalState);
         this.handleInput = this.handleInput.bind(this);
         this.updatePeople = this.updatePeople.bind(this);
+        this.updateCreator = this.updateCreator.bind(this);
         this.addPeople = this.addPeople.bind(this);
         this.removePerson = this.removePerson.bind(this);
         this.go = this.go.bind(this);
@@ -57,6 +66,11 @@ class App extends Component {
         this.setState({people: nextPeople}, () => this.updateSize());
     }
 
+    updateCreator(id, e) {
+        const nextCreator = Object.assign({}, this.state.creator, { [e.target.name]: e.target.value });
+        this.setState({ creator: nextCreator });
+    }
+
     updatePeople(id, e) {
         const nextPeople = [ ...this.state.people ];
         nextPeople[id] = Object.assign({}, nextPeople[id], {[e.target.name]: e.target.value});
@@ -72,6 +86,8 @@ class App extends Component {
         const data = this.state.people.filter( d => (
             d.name !== '' && d.email !== ''
         ) );
+
+        data.push(this.state.creator);
 
         console.log(JSON.stringify(this.state));
 
@@ -99,7 +115,7 @@ class App extends Component {
     render() {
 
         
-        const { group, people, position, spend } = this.state;
+        const { creator, group, people, position, spend } = this.state;
         const allThePeople = people.map( (person, id) =>
             (
                 <Person
@@ -129,6 +145,14 @@ class App extends Component {
                     title="Amount per person"
                 />
                 <div className="people">
+                    <Person
+                        className="creator"
+                        type="creator"
+                        name={creator.name}
+                        email={creator.email}
+                        personId={0}
+                        updatePeople={this.updateCreator}
+                    />
                     <span className="people-title">Add People:</span>
                     {allThePeople}
                     <div className="add-people">
