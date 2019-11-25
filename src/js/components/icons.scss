@@ -1,15 +1,17 @@
-img {
-    animation: wiggle 1s infinite;
+.icons {
+  img {
+      animation: wiggle 1s infinite;
+  }
 }
 
 @keyframes wiggle {
   0% {
-    transform: rotate(4deg);
+    transform: rotate(3deg);
   }
   50% {
-    transform: rotate(-4deg);
+    transform: rotate(-3deg);
   }
   100% {
-    transform: rotate(4deg);
+    transform: rotate(3deg);
   }
 }

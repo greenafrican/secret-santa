@@ -1,5 +1,4 @@
-import React from 'react';
-import ReactDOM from "react-dom";
+import React, { Component, createRef } from 'react';
 
 import Ball from '../images/ball.png';
 import Candy from '../images/candy.png';
@@ -18,32 +17,36 @@ const randomPos = (x, y) => {
     };
 }
 
-const Icons = (props) => {
-
-    if ( ! props.position ) {
-        return null;
+class Icons extends Component {
+    constructor(props) {
+        super(props);
     }
 
-    const { left, top, width, height } = props.position;
-    const posBall = randomPos(left - 120, top - 150);
-    const posTree = randomPos(left + width - 150, top - 100);
-    const posHat = randomPos(left - 240, top + height / 2 - 150);
-    const posSnowflake = randomPos(left + width, top + height / 2);
-    const posStocking = randomPos(left-100, top + height-140);
-    const posCandy = randomPos(left + width - 150, top + height);
+    render() {
+        const { position } = this.props;
+        if ( ! position ) {
+            return null;
+        }
 
-    console.log(props.position || {});
+        const { left, top, width, height } = position;
+        const posBall = randomPos(left - 120, top - 150);
+        const posTree = randomPos(left + width - 150, top - 100);
+        const posHat = randomPos(left - 270, top + height / 2 - 150);
+        const posSnowflake = randomPos(left + width + 30, top + height / 2);
+        const posStocking = randomPos(left-100, top + height-140);
+        const posCandy = randomPos(left + width - 80, top + height);
 
-    return (
-        <div className="icons">
-            <img src={Ball} style={posBall} />
-            <img src={Tree} style={posTree} />
-            <img src={Candy} style={posCandy} />
-            <img src={Hat} style={posHat} />
-            <img src={Snowflake} style={posSnowflake} />
-            <img src={Stocking} style={posStocking} />
-        </div>
-    )
+        return (
+            <div className="icons" ref={this.iconRef}>
+                <img className="ball" src={Ball} style={posBall} />
+                <img className="tree" src={Tree} style={posTree} />
+                <img className="candy" src={Candy} style={posCandy} />
+                <img className="hat" src={Hat} style={posHat} />
+                <img className="snowflake" src={Snowflake} style={posSnowflake} />
+                <img className="stocking" src={Stocking} style={posStocking} />
+            </div>
+        )
+    }
 }
 
 export default Icons;
