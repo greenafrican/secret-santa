@@ -1,0 +1,15 @@
+img {
+    animation: wiggle 1s infinite;
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(4deg);
+  }
+  50% {
+    transform: rotate(-4deg);
+  }
+  100% {
+    transform: rotate(4deg);
+  }
+}

@@ -11,7 +11,6 @@ class Person extends Component {
             name: props.name,
             email: props.email
         };
-        // this.handleChange = this.handleChange.bind(this);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -28,7 +27,8 @@ class Person extends Component {
 
     render() {
         const { personId, removePerson, updatePeople } = this.props;
-        const { name, email } = this.state; const myStyle = {
+        const { name, email } = this.state;
+        const myStyle = {
             'display': 'flex',
             'flexWrap': 'wrap',
             'justifyContent': 'space-between'

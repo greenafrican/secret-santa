@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import ReactDOM from "react-dom";
 import Input from '../components/Input';
 import Button from '../components/Button';
 import Person from '../components/Person';
+import Icons from "../components/Icons";
 
 import './styles.scss';
 
@@ -20,6 +21,7 @@ const originalState = {
 class App extends Component {
     constructor(props) {
         super(props);
+        this.appRef = createRef();
         this.state = Object.assign({}, originalState);
         this.handleInput = this.handleInput.bind(this);
         this.updatePeople = this.updatePeople.bind(this);
@@ -29,15 +31,30 @@ class App extends Component {
         this.handleClearForm = this.handleClearForm.bind(this);
     }
 
+    componentDidMount() {
+        this.updateSize();
+    }
+
+    updateSize() {
+        const { offsetLeft, offsetTop, offsetWidth, offsetHeight } = this.appRef.current;
+        const position = {
+            left: offsetLeft,
+            top: offsetTop,
+            width: offsetWidth,
+            height: offsetHeight
+        };
+        this.setState({ position })
+    }
+
     addPeople(n) {
         const newPeople = Array(n).fill({ name: '', email: '' });
-        this.setState({people: [ ...this.state.people, ...newPeople ]});
+        this.setState({ people: [...this.state.people, ...newPeople] }, () => this.updateSize());
     }
 
     removePerson(i) {
         const nextPeople = [ ...this.state.people ];
         nextPeople.splice(i, 1);
-        this.setState({people: nextPeople});
+        this.setState({people: nextPeople}, () => this.updateSize());
     }
 
     updatePeople(id, e) {
@@ -50,21 +67,28 @@ class App extends Component {
         this.setState({[e.target.name]: e.target.value});
     }
 
-    go() {
+    go(e) {
         e.preventDefault();
+        const data = this.state.people.filter( d => (
+            d.name !== '' && d.email !== ''
+        ) );
 
-        // fetch('http://example.com', {
-        //     method: "POST",
-        //     body: JSON.stringify(userData),
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     },
-        // }).then(response => {
-        //     response.json().then(data => {
-        //         console.log("Successful" + data);
-        //     })
-        // })
+        console.log(JSON.stringify(this.state));
+
+        console.log(data);
+
+        fetch('http://example.com', {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        }).then(response => {
+            response.json().then(data => {
+                console.log("Successful" + data);
+            })
+        })
     }
 
     handleClearForm() {
@@ -73,7 +97,9 @@ class App extends Component {
     }
     
     render() {
-        const { group, people, spend } = this.state;
+
+        
+        const { group, people, position, spend } = this.state;
         const allThePeople = people.map( (person, id) =>
             (
                 <Person
@@ -87,7 +113,7 @@ class App extends Component {
             )
         );
         return (
-            <div className="app-container">
+            <div className="app-container" ref={this.appRef}>
                 <Input
                     name="group"
                     type="text"
@@ -113,6 +139,7 @@ class App extends Component {
                 <div className="go">
                     <Button action={this.go} title="Let's do this!" />
                 </div>
+                <Icons position={position} />
             </div>
         );
     }
