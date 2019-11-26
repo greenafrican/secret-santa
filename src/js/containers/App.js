@@ -35,18 +35,18 @@ class App extends Component {
 
     render() {
         const { position } = this.state;
-        console.log(position);
         return (
             <div className="app-container" ref={this.appRef}>
                 <Switch>
                     <Route exact path="/">
                         <Setup updateSize={this.updateSize} />
+                        {position && <Icons position={position} />}
                     </Route>
                     <Route path="/status/:id">
                         <Status updateSize={this.updateSize} />
+                        {position && <Icons position={Object.assign({}, position, { height: position.height + 220 })} />}
                     </Route>
                 </Switch>
-                { position && <Icons position={Object.assign({}, position, {height: position.height+220})} />}
             </div>
         );
     }

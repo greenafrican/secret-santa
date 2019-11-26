@@ -2,6 +2,7 @@ body {
     background-color: #F38887;
     background-image: url('../images/xmas_stuff.png');
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 0 auto;
 }
 
 .app-container {
@@ -9,15 +10,19 @@ body {
     box-shadow: 4px 4px 16px rgba(0,0,0,0.14);
     border-radius: 20px;
     margin: 120px auto;
-    padding: 40px;
-    width: 600px;
+    padding: 20px;
+    width: 300px;
+
+    @media (min-width: 768px) {
+        width: 500px;
+    }
 
     .go {
         width: 100%;
 
         button {
-            margin: 0 25%;
-            width: 50%;
+            margin: 0 10%;
+            width: 80%;
 
             height: 100px;
             background-color: #5F9CA9;
@@ -28,4 +33,5 @@ body {
             font-size: 24px;
         }
     }
+
 }

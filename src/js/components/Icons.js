@@ -27,14 +27,19 @@ class Icons extends Component {
         if ( ! position ) {
             return null;
         }
+        
+        const windowWidth = window.innerWidth;
+        let adjM = windowWidth > 768 ? 120 : 0;
+        let adjL = windowWidth > 768 ? 240 : 0;
+        let adjS = windowWidth > 768 ? 80 : 0;
 
         const { left, top, width, height } = position;
-        const posBall = randomPos(left - 120, top - 150);
-        const posTree = randomPos(left + width - 150, top - 100);
-        const posHat = randomPos(left - 270, top + height / 2 - 150);
+        const posBall = randomPos(left - adjM, top - adjM);
+        const posTree = randomPos(left + width - adjM, top - adjM);
+        const posHat = randomPos(left - adjL, top + height / 2 - adjM);
         const posSnowflake = randomPos(left + width + 30, top + height / 2);
-        const posStocking = randomPos(left-100, top + height-140);
-        const posCandy = randomPos(left + width - 80, top + height);
+        const posStocking = randomPos(left - adjM, top + height-adjM);
+        const posCandy = randomPos(left + width - adjS, top + height);
 
         return (
             <div className="icons" ref={this.iconRef}>

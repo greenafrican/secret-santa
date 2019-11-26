@@ -1,6 +1,10 @@
 .icons {
   img {
+      width: 100px;
       animation: wiggle 1s infinite;
+      @media (min-width: 768px) {
+        width: 200px;
+      }
   }
 }
 

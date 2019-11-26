@@ -1,20 +1,28 @@
-label, input {
-    display: block;
-}
 
-label {
-    color: #100D03;
-    font-size: 22px;
-    margin: 30px 0px 12px;
-}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 100%;
+    overflow: hidden;
 
-input {
-    border: 0;
-    font-size: 32px;
-    color: #5F9CA9;
-    outline: 0;
-    background: transparent;
-    border-bottom: 2px solid #CDAC78;
-    padding: 8px;
-    width: 338px;
+    .form-label {
+        order: 0;
+        color: #100D03;
+        font-size: 18px;
+        margin: 30px 0px 0px;
+        width: 100%;
+    }
+    .form-input {
+        order: 1;
+        border: 0;
+        font-size: 32px;
+        color: #5F9CA9;
+        outline: 0;
+        background: transparent;
+        border-bottom: 2px solid #CDAC78;
+        padding: 8px;
+        width: 100%;
+    }
 }

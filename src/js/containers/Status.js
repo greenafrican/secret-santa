@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+
 import Button from '../components/Button';
 import YoureIn from '../images/youre_in.png';
 
@@ -66,4 +68,4 @@ class Status extends Component {
     }
 }
 
-export default Status;
+export default withRouter(Status);

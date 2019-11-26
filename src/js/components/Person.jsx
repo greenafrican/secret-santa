@@ -29,13 +29,13 @@ class Person extends Component {
     render() {
         const { className, personId, removePerson, type, updatePeople } = this.props;
         const { name, email } = this.state;
-        const myStyle = {
-            'display': 'flex',
-            'flexWrap': 'wrap',
-            'justifyContent': 'space-between'
-        };
         return (
-            <div className={classNames("form-group person", className)} style={myStyle}>
+            <div className={classNames("form-group person", className)}>
+                <Button
+                    className={type === 'creator' ? 'creator-btn' : 'person-btn'}
+                    action={(e) => type !== 'creator' && removePerson(personId, e)}
+                    title="-"
+                />
                 <Input
                     className="name"
                     type="text"
@@ -53,11 +53,6 @@ class Person extends Component {
                     title={ type === 'creator' ? "Your Email" : "Email" }
                     value={email}
                     handleChange={(e) => updatePeople(personId, e)}
-                />
-                <Button
-                    className={ type === 'creator' ? 'creator-btn' : 'person-btn'}
-                    action={(e) => type !== 'creator' && removePerson(personId, e)} 
-                    title="-"
                 />
             </div>)
     }

@@ -1,5 +1,25 @@
+.setup-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    .group, .spend {
+        width: 67%;
+    }
+}
+
 .people {
-    margin: 30px 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin: 20px 0;
+
+    .creator {
+        margin-bottom: 50px;
+    }
+
     button {
         height: 50px;
         width: 50px;
@@ -18,46 +38,71 @@
     }
 
     .add-people {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 16px 0;
+
+        @media (min-width: 768px) {
+            margin: 30px 0;
+        }
 
         button {
             background-color: rgba(76, 94, 79, 0.3);
-            margin-right: 12px;
+            width: 45%;
         }
     }
 }
 
 .person {
-    display: flexbox;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+
+    &.form-group {
+        @media (min-width: 768px) {
+            width: 100%;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    }
+
+    .form-group {
+        @media (min-width: 768px) {
+            width: 40%;
+        }
+    }
 
     &.creator {
-        margin-bottom: 50px;
-    }
-    
-    .name {
-        width: 30%;
-    }
-    .email {
-        width: 50%;
-    }
-
-    label {
-        margin-bottom: 0px;
-        margin-top: 16px;
+        @media (min-width: 768px) {
+            width: 100%;
+            flex-direction: row;
+            justify-content: space-between;
+            .form-group {
+                @media (min-width: 768px) {
+                    width: 45%;
+                    margin-right: 0;
+                }
+            }
+        }
     }
 
-    input {
-        display: inline-block;
+    .form-label {
+        margin-top: 20px;
+    }
+
+    .form-input {
         font-size: 22px;
-        width: 100%;
+    }
+
+    .person-btn {
+        margin: 16px auto 0;
+        @media (min-width: 768px) {
+            margin: 24px 0 0 0;
+        }
     }
 
     .creator-btn {
-        opacity: 0;
-        cursor: default;
+        display: none;
     }
 }
 

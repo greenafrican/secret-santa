@@ -1,8 +1,9 @@
 import React, { Component, createRef } from 'react';
+import { withRouter } from 'react-router-dom';
+
 import Input from '../components/Input';
 import Button from '../components/Button';
 import Person from '../components/Person';
-
 import './setup.scss';
 
 const originalState = {
@@ -75,18 +76,16 @@ class Setup extends Component {
 
         console.log(data);
 
-        fetch('http://example.com', {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        }).then(response => {
-            response.json().then(data => {
-                console.log("Successful" + data);
-            })
-        })
+        // fetch('http://example.com', {
+        //     method: "POST",
+        //     body: JSON.stringify(data),
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //     },
+        // }).then(() =>
+            this.props.history.push('/status/12345')
+        // );
     }
 
     handleClearForm() {
@@ -111,8 +110,9 @@ class Setup extends Component {
             )
         );
         return (
-            <div>
+            <div className="setup-container">
                 <Input
+                    className="group"
                     name="group"
                     type="text"
                     value={group}
@@ -120,6 +120,7 @@ class Setup extends Component {
                     title="This secret Santa group is called"
                 />
                 <Input
+                    className="spend"
                     name="spend"
                     type="text"
                     value={spend}
@@ -135,11 +136,11 @@ class Setup extends Component {
                         personId={0}
                         updatePeople={this.updateCreator}
                     />
-                    <span className="people-title">Add People:</span>
+                    <span className="people-title">Add friends & family:</span>
                     {allThePeople}
                     <div className="add-people">
-                        <Button action={() => this.addPeople(1)} title="+1" />
-                        <Button action={() => this.addPeople(5)} title="+5" />
+                        <Button action={() => this.addPeople(1)} title="+1 person" />
+                        <Button action={() => this.addPeople(5)} title="+5 people" />
                     </div>
                 </div>
                 <div className="go">
@@ -150,4 +151,4 @@ class Setup extends Component {
     }
 }
 
-export default Setup;
+export default withRouter(Setup);
