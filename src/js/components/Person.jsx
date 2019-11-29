@@ -27,15 +27,16 @@ class Person extends Component {
     }
 
     render() {
-        const { className, personId, removePerson, type, updatePeople } = this.props;
+        const { className, personId, removePerson, type, updatePerson } = this.props;
         const { name, email } = this.state;
+        const windowWidth = window.innerWidth;
         return (
             <div className={classNames("form-group person", className)}>
-                <Button
+                { windowWidth > 768 && <Button
                     className={type === 'creator' ? 'creator-btn' : 'person-btn'}
                     action={(e) => type !== 'creator' && removePerson(personId, e)}
                     title="-"
-                />
+                /> }
                 <Input
                     className="name"
                     type="text"
@@ -43,7 +44,7 @@ class Person extends Component {
                     name="name"
                     title={ type === 'creator' ? "Your Name" : "Name" }
                     value={name}
-                    handleChange={(e) => updatePeople(personId, e)}
+                    handleChange={(e) => updatePerson(personId, e)}
                 />
                 <Input
                     className="email"
@@ -52,8 +53,13 @@ class Person extends Component {
                     name="email"
                     title={ type === 'creator' ? "Your Email" : "Email" }
                     value={email}
-                    handleChange={(e) => updatePeople(personId, e)}
+                    handleChange={(e) => updatePerson(personId, e)}
                 />
+                { windowWidth <= 768 && <Button
+                    className={type === 'creator' ? 'creator-btn' : 'person-btn'}
+                    action={(e) => type !== 'creator' && removePerson(personId, e)}
+                    title="-"
+                />}
             </div>)
     }
 };
@@ -63,7 +69,7 @@ Person.propTypes = {
     personId: PropTypes.number.isRequired,
     name: PropTypes.string,
     email: PropTypes.string,
-    updatePeople: PropTypes.func.isRequired,
+    updatePerson: PropTypes.func.isRequired,
     removePerson: PropTypes.func,
     type: PropTypes.string,
 };

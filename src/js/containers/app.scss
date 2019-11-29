@@ -9,12 +9,13 @@ body {
     background-color: white;
     box-shadow: 4px 4px 16px rgba(0,0,0,0.14);
     border-radius: 20px;
-    margin: 120px auto;
+    margin: 30px auto;
     padding: 20px;
     width: 300px;
 
     @media (min-width: 768px) {
         width: 500px;
+        margin: 120px auto;
     }
 
     .go {

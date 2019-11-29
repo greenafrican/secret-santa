@@ -9,11 +9,12 @@ import Tree from '../images/tree.png';
 
 import './icons.scss';
 
-const randomPos = (x, y) => {
+const setPos = (x, y, width=200) => {
     return {
         top: `${y}px`,
         left: `${x}px`,
         position: 'absolute',
+        width: `${width}px`
     };
 }
 
@@ -27,19 +28,26 @@ class Icons extends Component {
         if ( ! position ) {
             return null;
         }
-        
-        const windowWidth = window.innerWidth;
-        let adjM = windowWidth > 768 ? 120 : 0;
-        let adjL = windowWidth > 768 ? 240 : 0;
-        let adjS = windowWidth > 768 ? 80 : 0;
-
         const { left, top, width, height } = position;
-        const posBall = randomPos(left - adjM, top - adjM);
-        const posTree = randomPos(left + width - adjM, top - adjM);
-        const posHat = randomPos(left - adjL, top + height / 2 - adjM);
-        const posSnowflake = randomPos(left + width + 30, top + height / 2);
-        const posStocking = randomPos(left - adjM, top + height-adjM);
-        const posCandy = randomPos(left + width - adjS, top + height);
+        const windowWidth = window.innerWidth;
+        const posBall = windowWidth > 768
+            ? setPos(left - 120, top - 130)
+            : setPos(-12, -8, 80);
+        const posTree = windowWidth > 768
+            ? setPos(left + width - 200, top - 50, 250)
+            : setPos(200, 40, 120);
+        const posHat = windowWidth > 768
+            ? setPos(left - 240, top + height / 2 - 200)
+            : setPos(270, 270, 80);
+        const posSnowflake = windowWidth > 768
+            ? setPos(left + width + 30, top + height / 2)
+            : setPos(310, 500, 80);
+        const posStocking = windowWidth > 768
+            ? setPos(left - 100, top + height - 120)
+            : setPos(-10, top + height - 560, 80);
+        const posCandy = windowWidth > 768
+            ? setPos(left + width - 80, top + height)
+            : setPos(300, top + height - 100, 80);
 
         return (
             <div className="icons" ref={this.iconRef}>

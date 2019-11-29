@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-
+import uuidv4 from 'uuid/v4';
 import Button from '../components/Button';
-import YoureIn from '../images/youre_in.png';
+import Person from '../components/Person';
 
-import './status.scss';
+import './optin.scss';
 
 const getState = {
     "group": "Santas Little Elfs",
@@ -71,23 +71,63 @@ const getState = {
     "group_id": "58ba72bd-dc50-418d-9bbe-0203ed083cdc"
 };
 
-class Status extends Component {
+class Optin extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            opter: {
+                name: '',
+                email: ''
+            }
+        };
+        this.updateOpter = this.updateOpter.bind(this);
+        this.optIn = this.optIn.bind(this);
+    }
+
+    updateOpter(id, e) {
+        const nextOpter = Object.assign({}, this.state.opter, { [e.target.name]: e.target.value });
+        this.setState({ opter: nextOpter }, () => this.props.updateSize());
     }
 
     componentDidMount(){
         // TODO: fetch data from api and add to state
-        this.setState(Object.assign({}, getState, {groupId: this.props.match.params.groupId}));
+        this.setState(Object.assign({}, getState, { id: this.props.match.params.id }), () => this.props.updateSize());
+    }
+
+    optIn(e) {
+        e.preventDefault();
+
+        const opter = Object.assign({}, this.state.opter, { confirmed: true, id: uuidv4() });
+        const payload = JSON.stringify(
+            Object.assign({},
+                {
+                    opter,
+                    group_id: this.state.group_id
+                }
+            )
+        );
+
+        console.log(payload);
+
+        // fetch('http://example.com', {
+        //     method: "POST",
+        //     body: JSON.stringify(data),
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //     },
+        // }).then(() =>
+        this.props.history.push('/status/12345')
+        // );
     }
 
     render() {
-        const { people } = this.state;
+        const { people, opter, spend } = this.state;
         if( 'undefined' === typeof people ) {
             return null;
         }
+        const creator = people.find( d => d.creator === true ).name;
         const allTheCrew = people.map((person, id) =>
             (
                 <div className="member" key={id}>
@@ -96,19 +136,35 @@ class Status extends Component {
                 </div>
             )
         );
+
         return (
-            <div>
-                <img className="header" src={YoureIn} />
+            <div className="setup-container">
+                <div className="intro">
+                    <p>Ho Ho Hi!</p>
+                    <p><span className="intro-creator">{creator}</span> started a Secret Santa group and wants you to join in the fun.</p>
+                    <p>Gifts are capped at <span className="intro-creator">R{spend}</span> per person and the cut-off date to join in is 15 December ’19.</p>
+                    <p>Simply submit your name and email address to join <span className="intro-creator">{creator}'s</span> merry band of Secret Santas.</p>
+                </div>
+                <div className="people">
+                    <Person
+                        className="creator"
+                        type="creator"
+                        name={opter.name}
+                        email={opter.email}
+                        personId={0}
+                        updatePerson={this.updateOpter}
+                    />
+                </div>
+                <div className="go sign-me-up">
+                    <Button action={this.optIn} title="Sign me up!" />
+                </div>
                 <div className="crew">
                     <span className="crew-title">The crew so far:</span>
                     {allTheCrew}
-                </div>
-                <div className="go">
-                    <Button action={this.copyLink} title="Copy link!" />
                 </div>
             </div>
         );
     }
 }
 
-export default withRouter(Status);
+export default withRouter(Optin);

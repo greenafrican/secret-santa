@@ -6,6 +6,7 @@ import ReactDOM from "react-dom"; import {
 } from "react-router-dom";
 import Setup from "./Setup";
 import Status from "./Status";
+import Optin from "./Optin";
 import Icons from "../components/Icons";
 
 import './app.scss';
@@ -42,8 +43,12 @@ class App extends Component {
                         <Setup updateSize={this.updateSize} />
                         {position && <Icons position={position} />}
                     </Route>
-                    <Route path="/status/:id">
+                    <Route path="/status/:groupId">
                         <Status updateSize={this.updateSize} />
+                        {position && <Icons position={Object.assign({}, position, { height: position.height + 220 })} />}
+                    </Route>
+                    <Route path="/optin/:groupId">
+                        <Optin updateSize={this.updateSize} />
                         {position && <Icons position={Object.assign({}, position, { height: position.height + 220 })} />}
                     </Route>
                 </Switch>

@@ -1,0 +1,17 @@
+.sign-me-up {
+    margin-bottom: 50px;
+}
+
+.intro {
+    font-size: 24px;
+    text-align: center;
+    margin: 0 20px;
+
+    @media (min-width: 768px) {
+        margin: 0 60px;
+    }
+
+    .intro-creator {
+        color: #5F9CA9;
+    }
+}

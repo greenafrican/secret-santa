@@ -7,6 +7,44 @@
     .group, .spend {
         width: 67%;
     }
+
+    .optin {
+        width: 100%;
+        margin: 0;
+
+        .form-label {
+            text-align: center;
+        }
+
+        .switch {
+            margin: 20px auto 30px;
+        }
+    }
+
+    .react-datepicker__input-container {
+        width: 100%;
+        margin-bottom: 50px;
+
+        input {
+            border: 0;
+            font-size: 32px;
+            color: #5F9CA9;
+            outline: 0;
+            background: transparent;
+            border-bottom: 2px solid #CDAC78;
+            padding: 8px;
+        }
+    }
+
+    .cutoff {
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+         label {
+             margin-top: 0px;
+         }
+    }
 }
 
 .people {
@@ -38,19 +76,18 @@
     }
 
     .add-people {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        margin: 16px 0;
-
+        width: 100%;
+        text-align: center;
         @media (min-width: 768px) {
-            margin: 30px 0;
+            text-align: left;
         }
-
         button {
-            background-color: rgba(76, 94, 79, 0.3);
-            width: 45%;
+            margin: 16px auto 30px;
+            background-color: #5F9CA9;
+
+            @media (min-width: 768px) {
+                margin: 30px 0;
+            }
         }
     }
 }

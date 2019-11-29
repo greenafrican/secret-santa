@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --open --mode development",
+    "start": "webpack-dev-server --host 0.0.0.0 --open --mode development",
     "build": "webpack --mode production"
   },
   "keywords": [],
@@ -30,9 +30,11 @@
     "file-loader": "^4.3.0",
     "node-sass": "^4.13.0",
     "react": "^16.11.0",
+    "react-datepicker": "^2.10.1",
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
     "sass-loader": "^8.0.0",
-    "style-loader": "^1.0.0"
+    "style-loader": "^1.0.0",
+    "uuid": "^3.3.3"
   }
 }
