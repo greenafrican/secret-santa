@@ -1,9 +1,14 @@
 import React, { Component, createRef } from "react";
-import ReactDOM from "react-dom"; import {
-    BrowserRouter as Router,
+import PropTypes from "prop-types";
+import {
     Switch,
     Route
 } from "react-router-dom";
+import { connect } from 'react-redux';
+import {
+    fetchOptInIfNeeded
+} from '../helpers/actions';
+
 import Setup from "./Setup";
 import Status from "./Status";
 import Optin from "./Optin";
@@ -21,6 +26,7 @@ class App extends Component {
 
     componentDidMount() {
         this.updateSize();
+        this.props.fetchOptInIfNeeded('4fc7680a-be85-493c-bc2b-ed5ecc40ead2');
     }
 
     updateSize() {
@@ -36,6 +42,7 @@ class App extends Component {
 
     render() {
         const { position } = this.state;
+        console.log(this.props);
         return (
             <div className="app-container" ref={this.appRef}>
                 <Switch>
@@ -57,9 +64,29 @@ class App extends Component {
     }
 }
 
-ReactDOM.render(
-    <Router>
-        <App />
-    </Router>,
-    document.getElementById("root")
-);
+App.propTypes = {
+    data: PropTypes.object.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    lastUpdated: PropTypes.number,
+    fetchOptInIfNeeded: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => {
+    const { dataByOptInId } = state;
+
+    console.log(dataByOptInId.data || {})
+
+    return {
+        data: dataByOptInId.data || {},
+        isFetching: dataByOptInId.isFetching || true,
+        lastUpdated: dataByOptInId.lastUpdated || null
+    }
+}
+
+const MapDispatchToProps = dispatch => {
+    return {
+        fetchOptInIfNeeded: (id) => dispatch(fetchOptInIfNeeded(id))
+    }
+};
+
+export default connect(mapStateToProps, MapDispatchToProps)(App)

@@ -54,20 +54,20 @@ function fetchOptIn(optInId) {
 }
 
 function shouldFetchOptIn(state, optInId) {
-    const optIn = ('id' in state.optIn) && state.optIn['id'] === optInId
+    console.log(state, optInId);
+    const optIn = state.hasOwnProperty('data') && state.data.hasOwnProperty('id') && state.optIn['id'] === optInId
     if (!optIn) {
         return true
     } else if (optIn.isFetching) {
         return false
-    } else {
-        return optIn.didInvalidate
     }
 }
 
-export function fetchOptInIfNeeded(optIn) {
+export function fetchOptInIfNeeded(optInId) {
+    console.log(optInId)
     return (dispatch, getState) => {
-        if (shouldFetchOptIn(getState(), optIn)) {
-            return dispatch(fetchOptIn(optIn))
+        if (shouldFetchOptIn(getState(), optInId)) {
+            return dispatch(fetchOptIn(optInId))
         }
     }
 }

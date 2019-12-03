@@ -8,25 +8,18 @@ import {
 function optIn(
     state = {
         isFetching: false,
-        didInvalidate: false,
         data: {}
     },
     action
 ) {
     switch (action.type) {
-        case INVALIDATE_OPTIN:
-            return Object.assign({}, state, {
-                didInvalidate: true
-            })
         case REQUEST_OPTIN:
             return Object.assign({}, state, {
-                isFetching: true,
-                didInvalidate: false
+                isFetching: true
             })
         case RECEIVE_OPTIN:
             return Object.assign({}, state, {
                 isFetching: false,
-                didInvalidate: false,
                 data: action.data,
                 lastUpdated: action.receivedAt
             })
@@ -37,7 +30,6 @@ function optIn(
 
 function dataByOptInId(state = {}, action) {
     switch (action.type) {
-        case INVALIDATE_OPTIN:
         case RECEIVE_OPTIN:
         case REQUEST_OPTIN:
             return Object.assign({}, state, 

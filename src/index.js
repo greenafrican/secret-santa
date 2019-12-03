@@ -1,1 +1,1 @@
-import App from "./js/containers/App";
+import Root from "./js/containers/Root";
