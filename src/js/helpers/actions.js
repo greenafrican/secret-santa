@@ -23,7 +23,7 @@ function receiveOptIn(optInId, json) {
     return {
         type: RECEIVE_OPTIN,
         optInId,
-        data: json.data,
+        data: json,
         receivedAt: Date.now()
     }
 }
@@ -47,7 +47,10 @@ function postOptIn(optIn) {
 function fetchOptIn(optInId) {
     return dispatch => {
         dispatch(requestOptIn(optInId))
-        return fetch(`${DEV_URL}${optInId}`)
+        return fetch(`${DEV_URL}${optInId}`, {
+                method: 'get',
+                mode: 'no-cors'
+            })
             .then(response => response.json())
             .then(json => dispatch(receiveOptIn(optInId, json)))
     }
