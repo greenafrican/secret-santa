@@ -6,6 +6,7 @@ import {
 
 import Setup from "./Setup";
 import Accept from "./Accept";
+import Status from "./Status";
 import Optin from "./Optin";
 
 import './app.scss';
@@ -23,6 +24,9 @@ class App extends Component {
                 <Switch>
                     <Route exact path="/">
                         <Setup />
+                    </Route>
+                    <Route path="/status/:groupId">
+                        <Status />
                     </Route>
                     <Route path="/:groupId/accept/:memberId">
                         <Accept />

@@ -4,24 +4,20 @@ import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import { acceptOptIn } from '../helpers/actions';
-import Button from '../components/Button';
+import { fetchOptInIfNeeded } from '../helpers/actions';
 import YoureIn from '../images/youre_in.png';
 
 import './accept.scss';
 
-class Accept extends Component {
+class Status extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
     }
 
     componentDidMount(){
-        const { groupId, memberId } = this.props.match.params;
-        this.props.acceptOptIn(groupId, memberId).then(() =>
-            this.props.history.push(`/status/${groupid}`)
-        );
+        const { groupId } = this.props.match.params;
+        this.props.fetchOptInIfNeeded(groupId);
     }
 
     render() {
@@ -44,19 +40,16 @@ class Accept extends Component {
                     <span className="crew-title">The crew so far:</span>
                     {allTheCrew}
                 </div>
-                <div className="go">
-                    <Button action={this.copyLink} title="Copy link!" />
-                </div>
             </div>
         );
     }
 }
 
-Accept.propTypes = {
+Status.propTypes = {
     data: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     lastUpdated: PropTypes.number,
-    acceptOptIn: PropTypes.func.isRequired
+    fetchOptInIfNeeded: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -70,11 +63,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        acceptOptIn: (groupId, memberId) => dispatch(acceptOptIn(groupId, memberId))
+        fetchOptInIfNeeded: (groupId) => dispatch(fetchOptInIfNeeded(groupId))
     }
 };
 
 export default compose(
     withRouter,
     connect(mapStateToProps, mapDispatchToProps)
-)(Accept);
+)(Status);

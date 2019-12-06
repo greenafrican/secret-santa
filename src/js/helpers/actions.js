@@ -34,6 +34,21 @@ export function postOptIn(group) {
     }
 }
 
+export function postMember(groupId, member) {
+    return dispatch => {
+        dispatch(requestOptIn());
+        return fetch(`${DEV_URL}${groupId}`, {
+            method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(member)
+        })
+            .then(response => response.json())
+            .then(json => dispatch(receiveOptIn(json)))
+    }
+}
 function fetchOptIn(groupId) {
     return dispatch => {
         dispatch(requestOptIn())
