@@ -1,76 +1,70 @@
 import fetch from 'cross-fetch'
 
-export const REQUEST_OPTIN = 'REQUEST_OPTIN'
-export const RECEIVE_OPTIN = 'RECEIVE_OPTIN'
-export const SUBMIT_OPTIN = 'SUBMIT_OPTIN'
-export const DEV_URL = 'https://c99krn5i75.execute-api.eu-west-1.amazonaws.com/development/'
+export const REQUEST_OPTIN = 'REQUEST_OPTIN';
+export const RECEIVE_OPTIN = 'RECEIVE_OPTIN';
+export const DEV_URL = 'https://c99krn5i75.execute-api.eu-west-1.amazonaws.com/development/';
 
-export function submitOptIn(optIn) {
+function requestOptIn() {
     return {
-        type: SUBMIT_OPTIN,
-        optIn
+        type: REQUEST_OPTIN
     }
 }
 
-function requestOptIn(optInId) {
-    return {
-        type: REQUEST_OPTIN,
-        optInId
-    }
-}
-
-function receiveOptIn(optInId, json) {
+function receiveOptIn(json) {
     return {
         type: RECEIVE_OPTIN,
-        optInId,
         data: json,
         receivedAt: Date.now()
     }
 }
 
-function postOptIn(optIn) {
+export function postOptIn(group) {
     return dispatch => {
-        dispatch(submitOptIn(optIn))
+        dispatch(requestOptIn());
         return fetch(`${DEV_URL}`, {
                 method: "post",
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(optIn)
+                body: JSON.stringify(group)
             })
             .then(response => response.json())
-            .then(json => dispatch(receiveOptIn(optIn['id'], json)))
+            .then(json => dispatch(receiveOptIn(json)))
     }
 }
 
-function fetchOptIn(optInId) {
+function fetchOptIn(groupId) {
     return dispatch => {
-        dispatch(requestOptIn(optInId))
-        return fetch(`${DEV_URL}${optInId}`, {
-                method: 'get',
-                mode: 'no-cors'
-            })
+        dispatch(requestOptIn())
+        return fetch(`${DEV_URL}${groupId}`)
             .then(response => response.json())
-            .then(json => dispatch(receiveOptIn(optInId, json)))
+            .then(json => dispatch(receiveOptIn(json)))
     }
 }
 
-function shouldFetchOptIn(state, optInId) {
-    console.log(state, optInId);
-    const optIn = state.hasOwnProperty('data') && state.data.hasOwnProperty('id') && state.optIn['id'] === optInId
-    if (!optIn) {
+export function acceptOptIn(groupId, memberId) {
+    return dispatch => {
+        dispatch(requestOptIn())
+        return fetch(`${DEV_URL}${groupId}/accept/${memberId}`)
+            .then(response => response.json())
+            .then(json => dispatch(receiveOptIn(json)))
+    }
+}
+
+function shouldFetchOptIn(state, groupId) {
+    const group = state.hasOwnProperty('data') && state.data.hasOwnProperty('group_id') && state.data['group_id'] === groupId
+    if (!group) {
         return true
-    } else if (optIn.isFetching) {
+    } else if (group.isFetching) {
         return false
     }
 }
 
-export function fetchOptInIfNeeded(optInId) {
-    console.log(optInId)
+export function fetchOptInIfNeeded(groupId) {
     return (dispatch, getState) => {
-        if (shouldFetchOptIn(getState(), optInId)) {
-            return dispatch(fetchOptIn(optInId))
+        if (shouldFetchOptIn(getState(), groupId)) {
+            return dispatch(fetchOptIn(groupId))
         }
     }
 }

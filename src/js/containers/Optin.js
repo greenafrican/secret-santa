@@ -87,12 +87,12 @@ class Optin extends Component {
 
     updateOpter(id, e) {
         const nextOpter = Object.assign({}, this.state.opter, { [e.target.name]: e.target.value });
-        this.setState({ opter: nextOpter }, () => this.props.updateSize());
+        this.setState({ opter: nextOpter });
     }
 
     componentDidMount(){
         // TODO: fetch data from api and add to state
-        this.setState(Object.assign({}, getState, { id: this.props.match.params.id }), () => this.props.updateSize());
+        this.setState(Object.assign({}, getState, { id: this.props.match.params.id }));
     }
 
     optIn(e) {

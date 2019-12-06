@@ -1,17 +1,10 @@
 import { combineReducers } from 'redux'
 import {
-    SUBMIT_OPTIN,
     REQUEST_OPTIN,
     RECEIVE_OPTIN
 } from './actions'
 
-function optIn(
-    state = {
-        isFetching: false,
-        data: {}
-    },
-    action
-) {
+function optIn(state, action) {
     switch (action.type) {
         case REQUEST_OPTIN:
             return Object.assign({}, state, {
@@ -32,9 +25,7 @@ function dataByOptInId(state = {}, action) {
     switch (action.type) {
         case RECEIVE_OPTIN:
         case REQUEST_OPTIN:
-            return Object.assign({}, state, 
-                optIn(state[action.optInId], action)
-            )
+            return Object.assign({}, state, optIn(state, action))
         default:
             return state
     }
