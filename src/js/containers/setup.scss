@@ -1,3 +1,5 @@
+@import '../skins/base.scss';
+
 .setup-container {
     display: flex;
     flex-direction: column;
@@ -31,7 +33,7 @@
             color: #5F9CA9;
             outline: 0;
             background: transparent;
-            border-bottom: 2px solid #CDAC78;
+            border-bottom: 2px solid $border-color;
             padding: 8px;
         }
     }
@@ -61,17 +63,17 @@
     button {
         height: 50px;
         width: 50px;
-        background-color: rgba(230, 131, 113, 0.3);
+        background-color: $button-up;
         border-radius: 25px;
         border: none;
-        color: white;
+        color: $button-text;
         cursor: pointer;
         font-size: 24px;
         margin: auto 0;
     }
 
     .people-title {
-        color: #BDBDBD;
+        color: $title-color;
         text-transform: uppercase;
     }
 
@@ -83,7 +85,8 @@
         }
         button {
             margin: 16px auto 30px;
-            background-color: #5F9CA9;
+            color: $add-people-text;
+            background-color: $add-people-bg;
 
             @media (min-width: 768px) {
                 margin: 30px 0;

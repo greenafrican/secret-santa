@@ -1,3 +1,5 @@
+@import '../skins/base.scss';
+
 /* The switch - the box around the slider */
 .optin {
     &.form-group {
@@ -50,7 +52,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #5F9CA9;
+    background-color: $button-up;
     -webkit-transition: .4s;
     transition: .4s;
 
@@ -73,11 +75,11 @@ input {
         display: none;
     }
     &:checked + .slider {
-        background-color: #F38887;
+        background-color: $button-down;
     }
 
     &:focus + .slider {
-        box-shadow: 0 0 1px #F38887;
+        box-shadow: 0 0 1px $button-down;
     }
 
     &:checked + .slider:before {

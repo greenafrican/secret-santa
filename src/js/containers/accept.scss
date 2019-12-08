@@ -1,6 +1,7 @@
+@import '../skins/base.scss';
 
 .crew-title {
-    color: #BDBDBD;
+    color: $title-color;
     text-transform: uppercase;
     width: 100%;
 }
@@ -13,11 +14,10 @@
     .name {
         margin: 0 25%;
         width: 50%;
-        color: #5F9CA9;
+        color: $text-color;
     }
 }
 .crew {
-    margin-bottom: 50px;
     text-align: center;
 }
 .header {

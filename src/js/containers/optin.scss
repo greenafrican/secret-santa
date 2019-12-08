@@ -1,8 +1,11 @@
+@import '../skins/base.scss';
+
 .sign-me-up {
     margin-bottom: 50px;
 }
 
 .intro {
+    color: $text-color;
     font-size: 24px;
     text-align: center;
     margin: 0 20px;
@@ -12,6 +15,6 @@
     }
 
     .intro-creator {
-        color: #5F9CA9;
+        color: $strong-color;
     }
 }

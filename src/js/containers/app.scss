@@ -1,16 +1,17 @@
+@import '../skins/base.scss';
+
 body {
-    background-color: #F38887;
-    background-image: url('../images/xmas_stuff.png');
+    background-color: $background-color;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     margin: 0 auto;
 }
 
 .app-container {
-    background-color: white;
-    box-shadow: 4px 4px 16px rgba(0,0,0,0.14);
+    background-color: $app-background;
+    box-shadow: 4px 4px 16px $border-color;
     border-radius: 20px;
     margin: 30px auto;
-    padding: 20px;
+    padding: 50px 20px;
     width: 300px;
 
     @media (min-width: 768px) {
@@ -26,7 +27,7 @@ body {
             width: 80%;
 
             height: 100px;
-            background-color: #5F9CA9;
+            background-color: $button-up;
             border-radius: 20px;
             border: none;
             color: white;

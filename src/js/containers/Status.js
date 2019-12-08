@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import { fetchOptInIfNeeded } from '../helpers/actions';
-import YoureIn from '../images/youre_in.png';
 
 import './accept.scss';
 
@@ -35,7 +34,6 @@ class Status extends Component {
         );
         return (
             <div>
-                <img className="header" src={YoureIn} />
                 <div className="crew">
                     <span className="crew-title">The crew so far:</span>
                     {allTheCrew}
