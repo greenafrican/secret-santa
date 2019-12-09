@@ -5,9 +5,10 @@
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: flex-start;
+    margin-top: -30px;
 
     .group, .spend {
-        width: 67%;
+        width: 100%;
     }
 
     .optin {
@@ -60,89 +61,9 @@
         margin-bottom: 50px;
     }
 
-    button {
-        height: 50px;
-        width: 50px;
-        background-color: $button-up;
-        border-radius: 25px;
-        border: none;
-        color: $button-text;
-        cursor: pointer;
-        font-size: 24px;
-        margin: auto 0;
-    }
-
     .people-title {
         color: $title-color;
         text-transform: uppercase;
-    }
-
-    .add-people {
-        width: 100%;
-        text-align: center;
-        @media (min-width: 768px) {
-            text-align: left;
-        }
-        button {
-            margin: 16px auto 30px;
-            color: $add-people-text;
-            background-color: $add-people-bg;
-
-            @media (min-width: 768px) {
-                margin: 30px 0;
-            }
-        }
-    }
-}
-
-.person {
-    margin-bottom: 20px;
-
-    &.form-group {
-        @media (min-width: 768px) {
-            width: 100%;
-            flex-direction: row;
-            justify-content: space-between;
-        }
-    }
-
-    .form-group {
-        @media (min-width: 768px) {
-            width: 40%;
-        }
-    }
-
-    &.creator {
-        @media (min-width: 768px) {
-            width: 100%;
-            flex-direction: row;
-            justify-content: space-between;
-            .form-group {
-                @media (min-width: 768px) {
-                    width: 45%;
-                    margin-right: 0;
-                }
-            }
-        }
-    }
-
-    .form-label {
-        margin-top: 20px;
-    }
-
-    .form-input {
-        font-size: 22px;
-    }
-
-    .person-btn {
-        margin: 16px auto 0;
-        @media (min-width: 768px) {
-            margin: 24px 0 0 0;
-        }
-    }
-
-    .creator-btn {
-        display: none;
     }
 }
 

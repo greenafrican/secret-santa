@@ -1,0 +1,77 @@
+@import '../skins/base.scss';
+
+.person {
+    margin-bottom: 20px;
+    &.form-group {
+        @media (min-width: 768px) {
+            width: 100%;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        @media (min-width: 768px) {
+            width: 40%;
+        }
+    }
+
+    &.creator {
+        @media (min-width: 768px) {
+            width: 100%;
+            flex-direction: row;
+            justify-content: space-between;
+            .form-group {
+                width: 45%;
+                margin-right: 0;
+            }
+        }
+    }
+
+    .form-label {
+        margin-top: 20px;
+    }
+
+    .form-input {
+        font-size: 22px;
+    }
+
+    .creator-btn {
+        display: none;
+    }
+
+    .person-buttons {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin-top: 20px;
+
+        button {
+            height: 60px;
+            width: 60px;
+            background-color: $button-up;
+            text-align: center;
+            border-radius: 100%;
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 35px;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+
+            &.add-people {
+                color: $add-people-text;
+                background-color: $add-people-bg;
+            }
+            
+            &.remove-person {
+                color: $add-people-text;
+                background-color: $remove-people-bg;
+                @media (min-width: 768px) {
+                }
+            }
+        }
+    }
+
+}

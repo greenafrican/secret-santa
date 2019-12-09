@@ -22,16 +22,16 @@ class App extends Component {
         return (
             <div className="app-container">
                 <Switch>
-                    <Route exact path="/">
+                    <Route path="/:campaign/">
                         <Setup />
                     </Route>
-                    <Route path="/status/:groupId">
+                    <Route path="/:campaign/status/:groupId">
                         <Status />
                     </Route>
-                    <Route path="/:groupId/accept/:memberId">
+                    <Route path="/:campaign/:groupId/accept/:memberId">
                         <Accept />
                     </Route>
-                    <Route path="/optin/:groupId">
+                    <Route path="/:campaign/optin/:groupId">
                         <Optin />
                     </Route>
                 </Switch>

@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import Input from "./Input";
 import Button from "./Button";
 
+import './person.scss';
 class Person extends Component {
 
     constructor(props) {
@@ -19,7 +20,8 @@ class Person extends Component {
             this.state.name !== nextState.name ||
             this.state.email !== nextState.email ||
             nextProps.name !== nextState.name ||
-            nextProps.email !== nextState.email
+            nextProps.email !== nextState.email ||
+            nextProps.lastPerson !== this.props.lastPerson
         );
     }
     static getDerivedStateFromProps(nextProps) {
@@ -27,16 +29,25 @@ class Person extends Component {
     }
 
     render() {
-        const { className, personId, removePerson, type, updatePerson } = this.props;
+        const { addPeople, className, personId, lastPerson, removePerson, type, updatePerson } = this.props;
         const { name, email } = this.state;
         const windowWidth = window.innerWidth;
+        const addPerson = (lastPerson === true && type !== 'creator')
+            ? <Button className="add-people" action={() => addPeople(1)} title="+" />
+            : null;
+        console.log(lastPerson, addPerson);
+        const buttons = type !== 'creator' ? (
+            <div className="person-buttons">
+                <Button
+                className={type === 'creator' ? 'creator-btn' : 'remove-person'}
+                action={(e) => type !== 'creator' && removePerson(personId, e)}
+                title="-" />
+                { addPerson }
+            </div> )
+            : null;
         return (
             <div className={classNames("form-group person", className)}>
-                { windowWidth > 768 && <Button
-                    className={type === 'creator' ? 'creator-btn' : 'person-btn'}
-                    action={(e) => type !== 'creator' && removePerson(personId, e)}
-                    title="-"
-                /> }
+                { windowWidth > 768 && buttons }
                 <Input
                     className="name"
                     type="text"
@@ -55,20 +66,18 @@ class Person extends Component {
                     value={email}
                     handleChange={(e) => updatePerson(personId, e)}
                 />
-                { windowWidth <= 768 && <Button
-                    className={type === 'creator' ? 'creator-btn' : 'person-btn'}
-                    action={(e) => type !== 'creator' && removePerson(personId, e)}
-                    title="-"
-                />}
+                { windowWidth <= 768 && buttons }
             </div>)
     }
 };
 
 Person.propTypes = {
+    addPeople: PropTypes.func,
     className: PropTypes.string,
     personId: PropTypes.number.isRequired,
     name: PropTypes.string,
     email: PropTypes.string,
+    lastPerson: PropTypes.bool,
     updatePerson: PropTypes.func.isRequired,
     removePerson: PropTypes.func,
     type: PropTypes.string,

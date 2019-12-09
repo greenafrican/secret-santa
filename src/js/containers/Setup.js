@@ -51,7 +51,7 @@ class Setup extends Component {
 
     addPeople(n) {
         const newPeople = Array(n).fill({ name: '', email: '' });
-        this.setState({ people: [...this.state.people, ...newPeople] }, () => this.props.updateSize());
+        this.setState({ people: [...this.state.people, ...newPeople] });
     }
 
     handleDate(date) {
@@ -64,7 +64,7 @@ class Setup extends Component {
     removePerson(i) {
         const nextPeople = [...this.state.people];
         nextPeople.splice(i, 1);
-        this.setState({ people: nextPeople }, () => this.props.updateSize());
+        this.setState({ people: nextPeople });
     }
 
     updateCreator(id, e) {
@@ -83,7 +83,7 @@ class Setup extends Component {
     }
 
     handleSwipe(e) {
-        this.setState({ optin: !this.state.optin }, () => this.props.updateSize());
+        this.setState({ optin: !this.state.optin });
     }
 
     // we shuffle all the people and then everyone buys for the person next to them :)
@@ -165,12 +165,14 @@ class Setup extends Component {
         const allThePeople = people.map((person, id) =>
             (
                 <Person
+                    addPeople={this.addPeople}
                     name={person.name}
                     email={person.email}
                     personId={id}
                     key={id}
                     updatePerson={this.updatePerson}
                     removePerson={this.removePerson}
+                    lastPerson={ ( id === ( people.length - 1 ) )}
                 />
             )
         );
@@ -182,7 +184,7 @@ class Setup extends Component {
                     type="text"
                     value={group}
                     handleChange={this.handleInput}
-                    title="This secret Santa group is called"
+                    title="Group name:"
                 />
                 <Input
                     className="spend"
@@ -201,21 +203,10 @@ class Setup extends Component {
                         personId={0}
                         updatePerson={this.updateCreator}
                     />
-                    <Swiper
-                        className="optin"
-                        label="Send link and people can opt in?"
-                        optin={optin}
-                        offText="Yes, please!"
-                        onText="No, I'll add them below"
-                        handleChange={this.handleSwipe}
-                    />
                     { ! optin && 
                         <div>
-                            <span className="people-title">Add friends & family:</span>
+                            <span className="people-title">Add others:</span>
                             {allThePeople}
-                            <div className="add-people">
-                                <Button action={() => this.addPeople(1)} title="+" />
-                            </div>
                         </div>
                     }
                 </div>
