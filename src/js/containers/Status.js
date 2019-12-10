@@ -5,8 +5,10 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import { fetchOptInIfNeeded } from '../helpers/actions';
+import Tick from '../images/tick.svg'
 
 import './accept.scss';
+import './status.scss';
 
 class Status extends Component {
 
@@ -24,11 +26,16 @@ class Status extends Component {
         if( 'undefined' === typeof people ) {
             return null;
         }
+        console.log(people);
         const allTheCrew = people.map((person, id) =>
             (
                 <div className="member" key={id}>
                     <span className="name">{person.name}</span>
-                    <span className="confirmed">{person.confirmed}</span>
+                    <span className="confirmed">
+                        { person.state === 'in' && 
+                            <Tick width={30} height={30} viewBox="0 0 594.149 594.149"/>
+                        }
+                    </span>
                 </div>
             )
         );

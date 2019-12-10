@@ -35,7 +35,6 @@ class Person extends Component {
         const addPerson = (lastPerson === true && type !== 'creator')
             ? <Button className="add-people" action={() => addPeople(1)} title="+" />
             : null;
-        console.log(lastPerson, addPerson);
         const buttons = type !== 'creator' ? (
             <div className="person-buttons">
                 <Button

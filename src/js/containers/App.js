@@ -22,7 +22,7 @@ class App extends Component {
         return (
             <div className="app-container">
                 <Switch>
-                    <Route path="/:campaign/">
+                    <Route exact path="/:campaign/">
                         <Setup />
                     </Route>
                     <Route path="/:campaign/status/:groupId">

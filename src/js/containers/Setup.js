@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import uuidv4 from 'uuid/v4';
+import PropTypes from "prop-types";
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+import { postOptIn } from '../helpers/actions';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import Person from '../components/Person';
-import Swiper from '../components/Swiper';
 import './setup.scss';
 
 const originalState = {
@@ -38,7 +40,6 @@ class Setup extends Component {
         this.addPeople = this.addPeople.bind(this);
         this.removePerson = this.removePerson.bind(this);
         this.copyLink = this.copyLink.bind(this);
-        this.secretShuffle = this.secretShuffle.bind(this);
         this.go = this.go.bind(this);
         this.handleClearForm = this.handleClearForm.bind(this);
         this.handleDate = this.handleDate.bind(this);
@@ -86,23 +87,6 @@ class Setup extends Component {
         this.setState({ optin: !this.state.optin });
     }
 
-    // we shuffle all the people and then everyone buys for the person next to them :)
-    secretShuffle( array ) {
-        let currentIndex = array.length, temporaryValue, randomIndex;
-        while (0 !== currentIndex) {
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
-        }
-        return array.map((d, i) => (
-            Object.assign({}, d, {
-                buys_for: i === (array.length - 1) ? array[0] : array[i + 1]
-            })
-        ));;
-    }
-
     copyLink() {
         // TODO: post group with group_id
         const str = uuidv4();
@@ -115,44 +99,28 @@ class Setup extends Component {
     }
 
     go(e) {
-        const state = Object.assign({}, this.state);
         e.preventDefault();
-        let people = this.state.people.filter(d => (
+        const state = Object.assign({}, this.state);
+        const { group, spend } = state;
+        const people = this.state.people.filter(d => (
             d.name !== '' && d.email !== ''
         ));
-
-        const creator = Object.assign({}, this.state.creator, {confirmed: true, id: uuidv4(), creator: true});
-        people = people.map( d => (
-            Object.assign({}, d, {confirmed: false, id: uuidv4()})
-        ) );
+        const creator = Object.assign({}, this.state.creator, {creator: true});
         people.push(creator);
-        delete state.creator;
-
-        people = this.secretShuffle( people );
 
         const payload = JSON.stringify(
-            Object.assign(state,
+            Object.assign({},
                 {
-                    people,
-                    group_id: uuidv4()
+                    cutoff: '2019-12-12',
+                    group,
+                    spend,
+                    optin: true,
+                    people
                 }
             )
         );
-
         console.log(payload);
-
-        console.log(people);
-
-        // fetch('http://example.com', {
-        //     method: "POST",
-        //     body: JSON.stringify(data),
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     },
-        // }).then(() =>
-            this.props.history.push('/status/12345')
-        // );
+        this.props.postOptIn(payload);
     }
 
     handleClearForm() {
@@ -232,4 +200,29 @@ class Setup extends Component {
     }
 }
 
-export default withRouter(Setup);
+Setup.propTypes = {
+    data: PropTypes.object.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    lastUpdated: PropTypes.number,
+    postOptIn: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => {
+    const { dataByOptInId } = state;
+    return {
+        data: dataByOptInId['data'] || {},
+        isFetching: dataByOptInId['isFetching'] || true,
+        lastUpdated: dataByOptInId['lastUpdated']
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        postOptIn: (optin) => dispatch(postOptIn(optin))
+    }
+};
+
+export default compose(
+    withRouter,
+    connect(mapStateToProps, mapDispatchToProps)
+)(Setup);

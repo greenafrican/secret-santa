@@ -7,10 +7,14 @@
             width: 100%;
             flex-direction: row;
             justify-content: space-between;
-        }
 
-        @media (min-width: 768px) {
-            width: 40%;
+            .name, .email {
+                width: 40%;
+            }
+
+            .person-buttons {
+
+            }
         }
     }
 
@@ -45,12 +49,17 @@
         justify-content: space-around;
         margin-top: 20px;
 
+        @media (min-width: 768px) {
+            flex-direction: column;
+        }
+
         button {
+            border: none;
             height: 60px;
             width: 60px;
             background-color: $button-up;
             text-align: center;
-            border-radius: 100%;
+            border-radius: 30px;
             display: inline-flex;
             flex-direction: column;
             justify-content: center;
@@ -63,6 +72,9 @@
             &.add-people {
                 color: $add-people-text;
                 background-color: $add-people-bg;
+                @media (min-width: 768px) {
+                    margin-top: 40px;
+                }
             }
             
             &.remove-person {
