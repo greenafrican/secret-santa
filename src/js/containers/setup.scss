@@ -5,7 +5,6 @@
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: flex-start;
-    margin-top: -30px;
 
     .group, .spend {
         width: 100%;
@@ -31,11 +30,12 @@
         input {
             border: 0;
             font-size: 32px;
-            color: #5F9CA9;
             outline: 0;
             background: transparent;
-            border-bottom: 2px solid $border-color;
             padding: 8px;
+            @include themify($themes) {
+                border-bottom: 2px solid themed('borderColor');
+            }
         }
     }
 
@@ -62,8 +62,10 @@
     }
 
     .people-title {
-        color: $title-color;
         text-transform: uppercase;
+        @include themify($themes) {
+            color: themed('titleColor');
+        }
     }
 }
 

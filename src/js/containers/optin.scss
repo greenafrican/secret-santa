@@ -5,16 +5,20 @@
 }
 
 .intro {
-    color: $text-color;
     font-size: 24px;
     text-align: center;
     margin: 0 20px;
+    @include themify($themes) {
+        color: themed('textColor');
+    }
 
     @media (min-width: 768px) {
         margin: 0 60px;
     }
 
     .intro-creator {
-        color: $strong-color;
+        @include themify($themes) {
+            color: themed('strongColor');
+        }
     }
 }

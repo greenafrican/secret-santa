@@ -52,7 +52,6 @@
             border: none;
             height: 60px;
             width: 60px;
-            background-color: $button-up;
             text-align: center;
             border-radius: 30px;
             display: inline-flex;
@@ -64,9 +63,15 @@
             font-weight: bold;
             text-decoration: none;
 
+            @include themify($themes) {
+                background-color: themed('buttonUp');
+            }
+
             &.add-people {
-                color: $add-people-text;
-                background-color: $add-people-bg;
+                @include themify($themes) {
+                    background-color: themed('addPeopleBg');
+                    color: themed('addPeopleText');
+                }
                 @media (min-width: 768px) {
                     margin-top: 40px;
                 }
@@ -77,8 +82,10 @@
             }
 
             &.remove-person {
-                color: $add-people-text;
-                background-color: $remove-people-bg;
+                @include themify($themes) {
+                    background-color: themed('removePeopleBg');
+                    color: themed('addPeopleText');
+                }
                 @media (min-width: 768px) {
                 }
             }

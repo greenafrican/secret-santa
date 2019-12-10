@@ -6,7 +6,7 @@ import { compose } from 'redux';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { postOptIn } from '../helpers/actions';
+import { postOptIn, getCampaign } from '../helpers/actions';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import Person from '../components/Person';
@@ -46,8 +46,7 @@ class Setup extends Component {
     }
 
     componentDidMount() {
-        const datePickers = document.getElementsByClassName("react-datepicker__input-container");
-        Array.from(datePickers).forEach((el => el.childNodes[0].setAttribute("readOnly", true)))
+        this.props.getCampaign(this.props.match.params.campaign);
     }
 
     addPeople(n) {
@@ -56,7 +55,6 @@ class Setup extends Component {
     }
 
     handleDate(date) {
-
         this.setState({
             cutoff: date
         });
@@ -108,18 +106,15 @@ class Setup extends Component {
         const creator = Object.assign({}, this.state.creator, {creator: true});
         people.push(creator);
 
-        const payload = JSON.stringify(
-            Object.assign({},
-                {
-                    cutoff: '2019-12-12',
-                    group,
-                    spend,
-                    optin: true,
-                    people
-                }
-            )
+        const payload = Object.assign({},
+            {
+                cutoff: '2019-12-12',
+                group,
+                spend,
+                optin: true,
+                people
+            }
         );
-        console.log(payload);
         this.props.postOptIn(payload);
     }
 
@@ -144,8 +139,13 @@ class Setup extends Component {
                 />
             )
         );
+        console.log(this.props);
         return (
             <div className="setup-container">
+                <div className="intro-container">
+
+                </div>
+                <div className="form-container">
                 <Input
                     className="group"
                     name="group"
@@ -195,21 +195,25 @@ class Setup extends Component {
                         <Button action={this.copyLink} title="Copy link!" />
                     </div>
                 </div>}
+                </div>
             </div>
         );
     }
 }
 
 Setup.propTypes = {
+    campaign: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     lastUpdated: PropTypes.number,
-    postOptIn: PropTypes.func.isRequired
+    postOptIn: PropTypes.func.isRequired,
+    getCampaign: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
-    const { dataByOptInId } = state;
+    const { dataByOptInId, campaignByCampaignName } = state;
     return {
+        campaign: campaignByCampaignName['campaign'] || {},
         data: dataByOptInId['data'] || {},
         isFetching: dataByOptInId['isFetching'] || true,
         lastUpdated: dataByOptInId['lastUpdated']
@@ -218,7 +222,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        postOptIn: (optin) => dispatch(postOptIn(optin))
+        postOptIn: (optin) => dispatch(postOptIn(optin)),
+        getCampaign: (campaign) => dispatch(getCampaign(campaign))
     }
 };
 

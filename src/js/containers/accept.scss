@@ -1,9 +1,11 @@
 @import '../skins/base.scss';
 
 .crew-title {
-    color: $title-color;
     text-transform: uppercase;
     width: 100%;
+    @include themify($themes) {
+        color: themed('titleColor');
+    }
 }
 .member {
     display: flex;
@@ -16,14 +18,18 @@
     text-align: center;
 
     .name {
-        color: $text-color;
+        @include themify($themes) {
+            color: themed('textColor');
+        }
     }
     .confirmed {
         margin: 0 0 0 6px;
 
         svg {
             path {
-                fill: $add-people-bg;
+                @include themify($themes) {
+                    fill: themed('addPeopleBg');
+                }
             }
         }
     }

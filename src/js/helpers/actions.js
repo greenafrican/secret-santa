@@ -1,7 +1,10 @@
 import fetch from 'cross-fetch'
 
+import Campaigns from '../skins/campaigns.js';
+
 export const REQUEST_OPTIN = 'REQUEST_OPTIN';
 export const RECEIVE_OPTIN = 'RECEIVE_OPTIN';
+export const RECEIVE_CAMPAIGN = 'RECEIVE_CAMPAIGN';
 export const DEV_URL = 'https://c99krn5i75.execute-api.eu-west-1.amazonaws.com/development/';
 
 function requestOptIn() {
@@ -18,6 +21,13 @@ function receiveOptIn(json) {
     }
 }
 
+function receiveCampaign(campaign) {
+    return {
+        type: RECEIVE_CAMPAIGN,
+        campaign: campaign
+    }
+}
+
 export function postOptIn(group) {
     return dispatch => {
         dispatch(requestOptIn());
@@ -31,6 +41,13 @@ export function postOptIn(group) {
             })
             .then(response => response.json())
             .then(json => dispatch(receiveOptIn(json)))
+    }
+}
+
+export function getCampaign(campaignName) {
+    return dispatch => {
+        const thisCampaign = Campaigns.find( d => d.key === campaignName );
+        return dispatch(receiveCampaign(thisCampaign));
     }
 }
 

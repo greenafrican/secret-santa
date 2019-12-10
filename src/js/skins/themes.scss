@@ -1,0 +1,27 @@
+@import './buyfresh/colors.scss';
+
+$themes: (
+  default: (
+    bodyBackgroundColor: #000,
+    appBackgroundColor: #FFF,
+    errorColor: #75302F,
+    anchorColor: #0D294A,
+    anchorHoverColor: #0D294A,
+    anchorVisitedColor: #0D294A,
+    textColor: #000,
+    titleColor: #5C5C5D,
+    labelColor: #000,
+    inputColor: #000,
+    buttonUp: #9B9B9B,
+    buttonDown: #434343,
+    buttonText: #FFF,
+    strongColor: #9B9B9B,
+    shadowColor: #434343,
+    borderColor: #5C5C5D,
+    addPeopleBg: #376F70,
+    addPeopleText: #FFF,
+    removePeopleBg: #D16463,
+    removePeopleText: #FFF
+  ),
+  buyfresh: $buyfresh-colors,
+);

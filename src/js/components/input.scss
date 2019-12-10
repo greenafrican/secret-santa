@@ -10,20 +10,24 @@
 
     .form-label {
         order: 0;
-        color: $label-color;
         font-size: 18px;
         margin: 30px 0px 0px;
         width: 100%;
+        @include themify($themes) {
+            color: themed('labelColor');
+        }
     }
     .form-input {
         order: 1;
         border: 0;
         font-size: 32px;
-        color: $input-color;
         outline: 0;
         background: transparent;
-        border-bottom: 2px solid $border-color;
         padding: 8px;
         width: 100%;
+        @include themify($themes) {
+            border-bottom: 2px solid themed('borderColor');
+            color: themed('inputColor');
+        }
     }
 }
