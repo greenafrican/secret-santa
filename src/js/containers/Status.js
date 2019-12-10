@@ -8,7 +8,6 @@ import { fetchOptInIfNeeded } from '../helpers/actions';
 import Tick from '../images/tick.svg'
 
 import './accept.scss';
-import './status.scss';
 
 class Status extends Component {
 
@@ -32,8 +31,8 @@ class Status extends Component {
                 <div className="member" key={id}>
                     <span className="name">{person.name}</span>
                     <span className="confirmed">
-                        { person.state === 'in' && 
-                            <Tick width={30} height={30} viewBox="0 0 594.149 594.149"/>
+                        {person.state === 'in' &&
+                            <Tick width={20} height={20} viewBox="0 0 594.149 594.149" />
                         }
                     </span>
                 </div>

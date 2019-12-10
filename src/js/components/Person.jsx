@@ -38,8 +38,8 @@ class Person extends Component {
         const buttons = type !== 'creator' ? (
             <div className="person-buttons">
                 <Button
-                className={type === 'creator' ? 'creator-btn' : 'remove-person'}
-                action={(e) => type !== 'creator' && removePerson(personId, e)}
+                    className={type === 'creator' || personId === 0 ? 'creator-btn' : 'remove-person'}
+                    action={(e) => (type !== 'creator' && personId > 0) && removePerson(personId, e)}
                 title="-" />
                 { addPerson }
             </div> )

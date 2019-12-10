@@ -6,15 +6,26 @@
     width: 100%;
 }
 .member {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
     font-size: 32px;
     margin: 16px 0;
     width: 100%;
     text-align: center;
 
     .name {
-        margin: 0 25%;
-        width: 50%;
         color: $text-color;
+    }
+    .confirmed {
+        margin: 0 0 0 6px;
+
+        svg {
+            path {
+                fill: $add-people-bg;
+            }
+        }
     }
 }
 .crew {
