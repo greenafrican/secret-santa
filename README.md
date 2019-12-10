@@ -1,6 +1,8 @@
 # hack-secretsanta
+This is the repository for the internal Kin Opt-In tool, previously named 'Secret Santa'
 
-# Getting started:
+
+## Getting started:
 - Clone the repo
 - `cd hack-secretsanta`
 - `npm i`
