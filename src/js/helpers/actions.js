@@ -44,7 +44,7 @@ export function postOptIn(group) {
     }
 }
 
-export function getCampaign(campaignName) {
+function getCampaign(campaignName) {
     return dispatch => {
         const thisCampaign = Campaigns.find( d => d.key === campaignName );
         return dispatch(receiveCampaign(thisCampaign));
@@ -87,16 +87,35 @@ export function acceptOptIn(groupId, memberId) {
 function shouldFetchOptIn(state, groupId) {
     const group = state.hasOwnProperty('data') && state.data.hasOwnProperty('group_id') && state.data['group_id'] === groupId
     if (!group) {
-        return true
+        return true;
     } else if (group.isFetching) {
-        return false
+        return false;
     }
+    return false;
 }
 
 export function fetchOptInIfNeeded(groupId) {
     return (dispatch, getState) => {
         if (shouldFetchOptIn(getState(), groupId)) {
             return dispatch(fetchOptIn(groupId))
+        }
+    }
+}
+
+function shouldFetchCampaign(state, campaign) {
+    const thisCampaign = state.hasOwnProperty('campaign') && state.data.hasOwnProperty('key') && state.data['key'] === campaign;
+    if (!thisCampaign) {
+        return true;
+    } else if (thisCampaign.isFetching) {
+        return false;
+    }
+    return false;
+}
+
+export function fetchCampaignIfNeeded(campaign) {
+    return (dispatch, getState) => {
+        if (shouldFetchCampaign(getState(), campaign)) {
+            return dispatch(getCampaign(campaign))
         }
     }
 }

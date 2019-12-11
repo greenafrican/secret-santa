@@ -1,6 +1,7 @@
 const campaigns = [
     {
         key: "buyfresh",
+        background_color: "#3D3530",
         title: "Win with Kin & Buyfresh!",
         cutoff: {
             type: "number_of_people",
@@ -18,7 +19,7 @@ const campaigns = [
             form_title: "Set up your braai and invite friends",
             form_custom_fields: [
                 {
-                    key: "group_name",
+                    key: "group",
                     title: "This braai group is called",
                     type: "text",
                     default: "Ultimate Fish Braai",

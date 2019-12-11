@@ -20,7 +20,7 @@
     .form-input {
         order: 1;
         border: 0;
-        font-size: 32px;
+        font-size: 24px;
         outline: 0;
         background: transparent;
         padding: 8px;
@@ -31,9 +31,11 @@
         }
     }
     textarea {
+        font-family: inherit;
         &.form-input {
             font-size: 16px;
             height: 100px;
+            width: 95%;
         }
     }
 }

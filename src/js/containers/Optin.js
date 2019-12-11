@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import { fetchOptInIfNeeded, postMember, getCampaign } from '../helpers/actions';
-import Tick from '../images/tick.svg'
+import { fetchOptInIfNeeded, postMember, fetchCampaignIfNeeded } from '../helpers/actions';
+import Status from './Status';
 import Button from '../components/Button';
 import Person from '../components/Person';
 
@@ -32,7 +32,7 @@ class OptIn extends Component {
 
     componentDidMount() {
         const { campaign, groupId } = this.props.match.params;
-        this.props.getCampaign(campaign);
+        this.props.fetchCampaignIfNeeded(campaign);
         this.props.fetchOptInIfNeeded(groupId);
     }
 
@@ -49,7 +49,7 @@ class OptIn extends Component {
         if (Object.keys(this.props.campaign).length === 0 && this.props.campaign.constructor === Object) {
             return null;
         }
-        const { terms, cutoff, optin, setup, title, external_link } = this.props.campaign;
+        const { terms, optin, setup, title, external_link } = this.props.campaign;
         const { opter } = this.state;
         const { people, group } = this.props.data;
         if( 'undefined' === typeof people ) {
@@ -57,18 +57,6 @@ class OptIn extends Component {
         }
         const intros = setup.intro.map((d, i) => <p key={i}>{d}</p>);
         const creator = people.find(person => person.creator);
-        const allTheCrew = people.map((person, id) =>
-            (
-                <div className="member" key={id}>
-                    <span className="name">{person.name}</span>
-                    <span className="confirmed">
-                        {person.state === 'in' &&
-                            <Tick width={20} height={20} viewBox="0 0 594.149 594.149" />
-                        }
-                    </span>
-                </div>
-            )
-        );
         return (
             <div className="optin-container">
                 <div className="sudo-form-container">
@@ -100,13 +88,10 @@ class OptIn extends Component {
                             By opting in you’re agreeing to our terms & conditions</a>
                         </div>
                     </div>
-                    <div className="crew">
-                        <span className="crew-title">The crew so far:</span>
-                        {allTheCrew}
-                    </div>
-                    <div className="status-text">
-                        <p>{cutoff.status_text.replace('{goal_difference}', parseInt(cutoff.goal) - people.length)}</p>
-                    </div>
+                    <Status
+                        campaign={this.props.campaign}
+                        people={people}
+                    />
                 </div>
                 <div className="intro-container">
                     <span className="title">{title}</span>
@@ -121,12 +106,13 @@ class OptIn extends Component {
 }
 
 OptIn.propTypes = {
+    campaign: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     lastUpdated: PropTypes.number,
     fetchOptInIfNeeded: PropTypes.func.isRequired,
     postMember: PropTypes.func.isRequired,
-    getCampaign: PropTypes.func.isRequired
+    fetchCampaignIfNeeded: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -143,7 +129,7 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchOptInIfNeeded: (groupId) => dispatch(fetchOptInIfNeeded(groupId)),
         postMember: (groupId, memberId) => dispatch(postMember(groupId, memberId)),
-        getCampaign: (campaign) => dispatch(getCampaign(campaign))
+        fetchCampaignIfNeeded: (campaign) => dispatch(fetchCampaignIfNeeded(campaign))
     }
 };
 

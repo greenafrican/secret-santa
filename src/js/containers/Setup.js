@@ -3,10 +3,8 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 
-import { postOptIn, getCampaign } from '../helpers/actions';
+import { postOptIn, fetchCampaignIfNeeded } from '../helpers/actions';
 import Textarea from '../components/Textarea';
 import Input from '../components/Input';
 import Button from '../components/Button';
@@ -46,7 +44,7 @@ class Setup extends Component {
     }
 
     componentDidMount() {
-        this.props.getCampaign(this.props.match.params.campaign);
+        this.props.fetchCampaignIfNeeded(this.props.match.params.campaign);
     }
 
     addPeople(n) {
@@ -113,10 +111,10 @@ class Setup extends Component {
     }
 
     render() {
-        const { creator, group, people, optin, message } = this.state;
-        if ( Object.keys(this.props.campaign).length === 0 && this.props.campaign.constructor === Object ) {
+        if (Object.keys(this.props.campaign).length === 0 && this.props.campaign.constructor === Object) {
             return null;
         }
+        const { creator, group, people, message } = this.state;
         const { external_link, title, setup, terms } = this.props.campaign;
         const intros = setup.intro.map( (d,i) => <p key={i}>{d}</p>);
         const allThePeople = people.map((person, id) =>
@@ -156,7 +154,7 @@ class Setup extends Component {
                         className="group"
                         name="group"
                         type="text"
-                        value={group}
+                        value={group || setup.form_custom_fields.find(d => d.key === 'group').default}
                         handleChange={this.handleInput}
                         title="This group is called:"
                     />
@@ -192,7 +190,7 @@ Setup.propTypes = {
     isFetching: PropTypes.bool.isRequired,
     lastUpdated: PropTypes.number,
     postOptIn: PropTypes.func.isRequired,
-    getCampaign: PropTypes.func.isRequired,
+    fetchCampaignIfNeeded: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
@@ -208,7 +206,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         postOptIn: (optin) => dispatch(postOptIn(optin)),
-        getCampaign: (campaign) => dispatch(getCampaign(campaign))
+        fetchCampaignIfNeeded: (campaign) => dispatch(fetchCampaignIfNeeded(campaign))
     }
 };
 

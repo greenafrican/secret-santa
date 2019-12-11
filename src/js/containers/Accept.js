@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import { acceptOptIn } from '../helpers/actions';
+import { fetchCampaignIfNeeded, acceptOptIn } from '../helpers/actions';
+import Status from './Status';
 import Button from '../components/Button';
-import YoureIn from '../images/youre_in.png';
 
 import './accept.scss';
 
@@ -14,38 +14,59 @@ class Accept extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.copyLink = this.copyLink.bind(this);
     }
 
-    componentDidMount(){
-        const { groupId, memberId } = this.props.match.params;
-        this.props.acceptOptIn(groupId, memberId).then(() =>
-            this.props.history.push(`/status/${groupid}`)
-        );
+    componentDidMount() {
+        const { campaign, groupId, memberId } = this.props.match.params;
+        this.props.fetchCampaignIfNeeded(campaign);
+        this.props.acceptOptIn(groupId, memberId);
+    }
+
+    copyLink(groupId) {
+        const el = document.createElement('textarea');
+        let hostName = window.location.hostname;
+        hostName = hostName === '0.0.0.0' ? hostName + ':8080' : hostname;
+        el.value = `${hostName}/${this.props.campaign.key}/optin/${groupId}`;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
     }
 
     render() {
-        const { people } = this.props.data;
-        if( 'undefined' === typeof people ) {
+        if (Object.keys(this.props.campaign).length === 0 && this.props.campaign.constructor === Object) {
             return null;
         }
-        const allTheCrew = people.map((person, id) =>
-            (
-                <div className="member" key={id}>
-                    <span className="name">{person.name}</span>
-                    <span className="confirmed">{person.confirmed}</span>
-                </div>
-            )
-        );
+        const { status } = this.props.campaign;
+        const { people, group, group_id } = this.props.data;
+        if ('undefined' === typeof people) {
+            return null;
+        }
+        const creator = people.find(person => person.creator);
         return (
-            <div>
-                <img className="header" src={YoureIn} />
-                <div className="crew">
-                    <span className="crew-title">The crew so far:</span>
-                    {allTheCrew}
-                </div>
-                <div className="go">
-                    <Button action={this.copyLink} title="Copy link!" />
+            <div className="status-container">
+                <div className="sudo-form-container">
+                    <div className="yourein"></div>
+                    <div className="intro">
+                        {status.intro.map((d, i) => {
+                            return (<p key={i}>{
+                                d
+                                    .replace('{creator_name}', creator.name)
+                                    .replace('{group_name}', group)
+                            }</p>);
+                        })}
+                    </div>
+                    <Status
+                        campaign={this.props.campaign}
+                        people={people}
+                        />
+                    <div className="status-text">
+                        <p>{status.invite}</p>
+                    </div>
+                    <div className="go">
+                        <Button action={() => this.copyLink(group_id)} title="Copy the link" />
+                    </div>
                 </div>
             </div>
         );
@@ -53,15 +74,18 @@ class Accept extends Component {
 }
 
 Accept.propTypes = {
+    campaign: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     lastUpdated: PropTypes.number,
+    fetchCampaignIfNeeded: PropTypes.func.isRequired,
     acceptOptIn: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
-    const { dataByOptInId } = state;
+    const { dataByOptInId, campaignByCampaignName } = state;
     return {
+        campaign: campaignByCampaignName['campaign'] || {},
         data: dataByOptInId['data'] || {},
         isFetching: dataByOptInId['isFetching'] || true,
         lastUpdated: dataByOptInId['lastUpdated']
@@ -70,6 +94,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        fetchCampaignIfNeeded: (campaign) => dispatch(fetchCampaignIfNeeded(campaign)),
         acceptOptIn: (groupId, memberId) => dispatch(acceptOptIn(groupId, memberId))
     }
 };
