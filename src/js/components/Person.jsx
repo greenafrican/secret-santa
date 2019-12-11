@@ -52,7 +52,7 @@ class Person extends Component {
                     type="text"
                     id={`name_${personId}`}
                     name="name"
-                    title={ type === 'creator' ? "Your Name" : "Name" }
+                    title={ type === 'creator' ? "My name is" : "Name" }
                     value={name}
                     handleChange={(e) => updatePerson(personId, e)}
                 />
@@ -61,11 +61,14 @@ class Person extends Component {
                     type="email"
                     id={`email_${personId}`}
                     name="email"
-                    title={ type === 'creator' ? "Your Email" : "Email" }
+                    title={ type === 'creator' ? "My email" : "Email" }
                     value={email}
                     handleChange={(e) => updatePerson(personId, e)}
                 />
-                { windowWidth <= 768 && buttons }
+                { (windowWidth <= 768 && personId > 0) ? buttons : 
+                    <div className="person-buttons">
+                        {addPerson}
+                    </div> }
             </div>)
     }
 };

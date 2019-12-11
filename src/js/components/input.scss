@@ -30,4 +30,10 @@
             color: themed('inputColor');
         }
     }
+    textarea {
+        &.form-input {
+            font-size: 16px;
+            height: 100px;
+        }
+    }
 }

@@ -7,6 +7,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { postOptIn, getCampaign } from '../helpers/actions';
+import Textarea from '../components/Textarea';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import Person from '../components/Person';
@@ -14,7 +15,7 @@ import './setup.scss';
 
 const originalState = {
     group: '',
-    spend: 200.00,
+    message: '',
     creator: {
         name: '',
         email: ''
@@ -124,7 +125,13 @@ class Setup extends Component {
     }
 
     render() {
-        const { creator, cutoff, group, people, optin, spend } = this.state;
+        const { creator, group, people, optin, message } = this.state;
+        if ( Object.keys(this.props.campaign).length === 0 && this.props.campaign.constructor === Object ) {
+            return null;
+        }
+        const { external_link, title, setup, terms } = this.props.campaign;
+        console.log(this.props.campaign);
+        const intros = setup.intro.map( (d,i) => <p key={i}>{d}</p>);
         const allThePeople = people.map((person, id) =>
             (
                 <Person
@@ -139,30 +146,17 @@ class Setup extends Component {
                 />
             )
         );
-        console.log(this.props);
         return (
             <div className="setup-container">
                 <div className="intro-container">
-
+                    <span className="title">{title}</span>
+                    <span className="intro">{intros}</span>
+                    <div className="campaign-link">
+                        <Button action={() => window.open(external_link, " _blank")} title="Check it out" />
+                    </div>
+                    <div className="title form-title">{setup.form_title}</div>
                 </div>
                 <div className="form-container">
-                <Input
-                    className="group"
-                    name="group"
-                    type="text"
-                    value={group}
-                    handleChange={this.handleInput}
-                    title="Group name:"
-                />
-                <Input
-                    className="spend"
-                    name="spend"
-                    type="text"
-                    value={spend}
-                    handleChange={this.handleInput}
-                    title="Amount per person"
-                />
-                <div className="people">
                     <Person
                         className="creator"
                         type="creator"
@@ -171,30 +165,35 @@ class Setup extends Component {
                         personId={0}
                         updatePerson={this.updateCreator}
                     />
-                    { ! optin && 
-                        <div>
-                            <span className="people-title">Add others:</span>
-                            {allThePeople}
-                        </div>
-                    }
-                </div>
-                { ! optin && <div className="go">
+                    <Input
+                        className="group"
+                        name="group"
+                        type="text"
+                        value={group}
+                        handleChange={this.handleInput}
+                        title="This group is called:"
+                    />
+                    <Textarea
+                        className="message"
+                        name="message"
+                        type="text-area"
+                        value={message}
+                        handleChange={this.handleInput}
+                        title="Message to group:"
+                    />
+                    <div className="people">
+                        
+                        { ! optin && 
+                            <div>
+                                <span className="people-title">Who's invited:</span>
+                                {allThePeople}
+                            </div>
+                        }
+                    </div>
                     <Button action={this.go} title="Let's do this!" />
-                </div>}
-                { optin &&
-                <div className="cutoff">
-                    <div className="form-group">
-                        <label htmlFor="cutoff" className="form-label">Opt in cutoff date:</label>
-                        <DatePicker
-                            selected={cutoff}
-                            onChange={this.handleDate}
-                            withPortal
-                        />
-                    </div>
-                    <div className="go">
-                        <Button action={this.copyLink} title="Copy link!" />
-                    </div>
-                </div>}
+                </div>
+                <div className="terms"><a href={terms} target="_blank">
+                    By opting in you’re agreeing to our terms & conditions</a>
                 </div>
             </div>
         );

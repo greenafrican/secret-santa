@@ -1,7 +1,6 @@
 @import '../skins/base.scss';
 
 .person {
-    margin-bottom: 20px;
     &.form-group {
         @media (min-width: 768px) {
             width: 100%;

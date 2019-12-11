@@ -25,7 +25,6 @@ function optIn(state, action) {
 function campaign(state, action) {
     switch (action.type) {
         case RECEIVE_CAMPAIGN:
-            console.log(action);
             return Object.assign({}, state, {
                 campaign: action.campaign
             })
@@ -45,7 +44,6 @@ function dataByOptInId(state = {}, action) {
 }
 
 function campaignByCampaignName(state = {}, action) {
-    console.log(action);
     switch (action.type) {
         case RECEIVE_CAMPAIGN:
             return Object.assign({}, state, campaign(state, action));

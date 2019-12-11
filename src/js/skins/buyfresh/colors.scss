@@ -10,7 +10,7 @@ $buyfresh-colors: (
     titleColor: #5C5C5D,
     labelColor: #000,
     inputColor: #000,
-    buttonUp: #9B9B9B,
+    buttonUp: #F4A069,
     buttonDown: #434343,
     buttonText: #FFF,
     strongColor: #9B9B9B,
@@ -20,5 +20,7 @@ $buyfresh-colors: (
     addPeopleText: #FFF,
     removePeopleBg: #D16463,
     removePeopleText: #FFF,
+    backgroundTextColor: #FFF,
     logo: url(../skins/buyfresh/logo.png),
+    externalImage: url(../skins/buyfresh/external.jpg)
 );

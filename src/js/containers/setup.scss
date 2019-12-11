@@ -10,16 +10,67 @@
         width: 100%;
     }
 
-    .optin {
-        width: 100%;
-        margin: 0;
+    .terms {
+        margin: 30px auto;
+        width: 67%;
+        text-align: center;
+        font-size: 12px;
+        line-height: 24px;
+        @include themify($themes) {
+            color: themed('backgroundTextColor');
+        }
+    }
 
-        .form-label {
-            text-align: center;
+    .intro-container {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        text-align: center;
+        margin-bottom: 20px;
+
+        @include themify($themes) {
+            color: themed('backgroundTextColor');
         }
 
-        .switch {
-            margin: 20px auto 30px;
+        .title {
+            font-size: 24px;
+            line-height: 32px;
+            width: 256px;
+            margin: 0 auto 12px;
+        }
+        .intro {
+            p {
+                font-size: 18px;
+                line-height: 24px;
+                @include themify($themes) {
+                    color: themed('backgroundTextColor');
+                }
+            }
+        }
+        .campaign-link {
+            display: flex;
+            margin: 20px 0;
+            height: 180px;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            @include themify($themes) {
+                background-image: themed('externalImage');
+            }
+
+            button {
+                margin: auto auto;
+                width: 192px;
+                height: 40px;
+                border-radius: 20px;
+                border: none;
+                color: white;
+                cursor: default;
+                font-size: 16px;
+                @include themify($themes) {
+                    background-color: themed('buttonUp');
+                }
+            }
         }
     }
 
@@ -55,11 +106,7 @@
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: flex-start;
-    margin: 20px 0;
-
-    .creator {
-        margin-bottom: 50px;
-    }
+    margin: 40px 0;
 
     .people-title {
         text-transform: uppercase;
