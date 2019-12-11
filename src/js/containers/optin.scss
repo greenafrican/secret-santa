@@ -1,5 +1,6 @@
 @import '../skins/base.scss';
 
+
 .sign-me-up {
     margin-bottom: 50px;
 }
@@ -19,6 +20,16 @@
     .intro-creator {
         @include themify($themes) {
             color: themed('strongColor');
+        }
+    }
+}
+
+.app-container {
+    .optin-container {
+        .terms {
+            @include themify($themes) {
+                color: themed('textColor');
+            }
         }
     }
 }

@@ -12,6 +12,17 @@ body {
 .app-container {
     padding: 40px 0;
 
+    .terms {
+        margin: 30px auto;
+        width: 67%;
+        text-align: center;
+        font-size: 12px;
+        line-height: 16px;
+        @include themify($themes) {
+            color: themed('backgroundTextColor');
+        }
+    }
+
     .campaign-container {
         display: flex;
         flex-direction: column;
@@ -22,7 +33,7 @@ body {
 
     .form-container {
         border-radius: 20px;
-        margin: 0 auto;
+        margin: 0 auto 30px;
         padding: 20px 20px;
         width: 300px;
 
@@ -36,7 +47,35 @@ body {
             margin: 0 auto;
         }
 
-        .go {
+    }
+
+    .sudo-form-container {
+        border-radius: 20px;
+        margin: 0 auto 30px;
+        padding: 20px 0;
+        width: 300px;
+
+        @include themify($themes) {
+            background-color: themed('sudoformBackgroundColor');
+            box-shadow: 4px 4px 16px themed('shadowColor');
+        }
+
+        .form-container {
+            box-shadow: none;
+            width: 260px;
+            .people {
+                margin-top: 0;
+            }
+        }
+
+        @media (min-width: 768px) {
+            width: 500px;
+            margin: 0 auto;
+        }
+
+    }
+
+    .go {
             width: 100%;
 
             button {
@@ -49,12 +88,10 @@ body {
                 cursor: pointer;
                 font-size: 24px;
                 @include themify($themes) {
-                    background-color: themed('buttonUp');
+                    background-color: themed('buttonGo');
                 }
             }
         }
-
-    }
 
     .logo {
         width: 55px;

@@ -40,7 +40,6 @@ class Setup extends Component {
         this.updateCreator = this.updateCreator.bind(this);
         this.addPeople = this.addPeople.bind(this);
         this.removePerson = this.removePerson.bind(this);
-        this.copyLink = this.copyLink.bind(this);
         this.go = this.go.bind(this);
         this.handleClearForm = this.handleClearForm.bind(this);
         this.handleDate = this.handleDate.bind(this);
@@ -86,17 +85,6 @@ class Setup extends Component {
         this.setState({ optin: !this.state.optin });
     }
 
-    copyLink() {
-        // TODO: post group with group_id
-        const str = uuidv4();
-        const el = document.createElement('textarea');
-        el.value = str;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-    }
-
     go(e) {
         e.preventDefault();
         const state = Object.assign({}, this.state);
@@ -130,7 +118,6 @@ class Setup extends Component {
             return null;
         }
         const { external_link, title, setup, terms } = this.props.campaign;
-        console.log(this.props.campaign);
         const intros = setup.intro.map( (d,i) => <p key={i}>{d}</p>);
         const allThePeople = people.map((person, id) =>
             (
@@ -182,14 +169,13 @@ class Setup extends Component {
                         title="Message to group:"
                     />
                     <div className="people">
-                        
-                        { ! optin && 
-                            <div>
-                                <span className="people-title">Who's invited:</span>
-                                {allThePeople}
-                            </div>
-                        }
+                        <div>
+                            <span className="people-title">Who's invited:</span>
+                            {allThePeople}
+                        </div>
                     </div>
+                </div>
+                <div className="go">
                     <Button action={this.go} title="Let's do this!" />
                 </div>
                 <div className="terms"><a href={terms} target="_blank">

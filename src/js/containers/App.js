@@ -16,7 +16,7 @@ class App extends Component {
         return (
             <div className="app-container">
                 <Switch>
-                    <Route exact path="/:campaign">
+                    <Route path="/:campaign">
                         <Campaign />
                     </Route>
                 </Switch>
