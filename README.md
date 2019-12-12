@@ -8,4 +8,4 @@ This is the repository for the internal Kin Opt-In tool, previously named 'Secre
 - `npm i`
 - `npm run build`
 - `npm run start`
-- Browse to 0.0.0.0:8080/:campaignName/
+- Browse to 0.0.0.0:8080/{campaign_name}/
