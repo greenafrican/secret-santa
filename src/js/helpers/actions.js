@@ -2,36 +2,44 @@ import fetch from 'cross-fetch'
 
 import Campaigns from '../skins/campaigns.js';
 
-export const REQUEST_OPTIN = 'REQUEST_OPTIN';
-export const RECEIVE_OPTIN = 'RECEIVE_OPTIN';
+export const REQUEST_GROUP = 'REQUEST_GROUP';
+export const RECEIVE_GROUP = 'RECEIVE_GROUP';
+export const REQUEST_CAMPAIGN = 'REQUEST_CAMPAIGN';
 export const RECEIVE_CAMPAIGN = 'RECEIVE_CAMPAIGN';
-export const DEV_URL = 'https://c99krn5i75.execute-api.eu-west-1.amazonaws.com/development/';
+export const DEV_URL = 'https://c99krn5i75.execute-api.eu-west-1.amazonaws.com/development';
 
-function requestOptIn() {
+function requestGroup() {
     return {
-        type: REQUEST_OPTIN
+        type: REQUEST_GROUP
     }
 }
 
-function receiveOptIn(json) {
+function receiveGroup(json) {
     return {
-        type: RECEIVE_OPTIN,
+        type: RECEIVE_GROUP,
         data: json,
         receivedAt: Date.now()
+    }
+}
+
+function requestCampaign() {
+    return {
+        type: REQUEST_CAMPAIGN
     }
 }
 
 function receiveCampaign(campaign) {
     return {
         type: RECEIVE_CAMPAIGN,
-        campaign: campaign
+        campaign: campaign,
+        receivedAt: Date.now()
     }
 }
 
-export function postOptIn(group) {
+export function postGroup(group, campaignName) {
     return dispatch => {
-        dispatch(requestOptIn());
-        return fetch(`${DEV_URL}`, {
+        dispatch(requestGroup());
+        return fetch(`${DEV_URL}/${campaignName}`, {
                 method: "post",
                 headers: {
                     'Accept': 'application/json',
@@ -40,21 +48,24 @@ export function postOptIn(group) {
                 body: JSON.stringify(group)
             })
             .then(response => response.json())
-            .then(json => dispatch(receiveOptIn(json)))
+            .then(json => dispatch(receiveGroup(json)));
     }
 }
 
-function getCampaign(campaignName) {
+function fetchCampaign(campaignName) {
     return dispatch => {
-        const thisCampaign = Campaigns.find( d => d.key === campaignName );
-        return dispatch(receiveCampaign(thisCampaign));
+        dispatch(requestCampaign());
+        const frontCampaign = Campaigns.find(d => d.key === campaignName);
+        return fetch(`${DEV_URL}/${campaignName}`)
+            .then(response => response.json())
+            .then(apiCampaign => dispatch(receiveCampaign(Object.assign({}, frontCampaign, apiCampaign))));
     }
 }
 
-export function postMember(groupId, member) {
+export function postMember(campaignName, groupId, member) {
     return dispatch => {
-        dispatch(requestOptIn());
-        return fetch(`${DEV_URL}${groupId}`, {
+        dispatch(requestGroup());
+        return fetch(`${DEV_URL}/${campaignName}/${groupId}`, {
             method: "post",
             headers: {
                 'Accept': 'application/json',
@@ -63,28 +74,28 @@ export function postMember(groupId, member) {
             body: JSON.stringify(member)
         })
             .then(response => response.json())
-            .then(json => dispatch(receiveOptIn(json)))
+            .then(json => dispatch(receiveGroup(json)))
     }
 }
-function fetchOptIn(groupId) {
+function fetchGroup(campaignName, groupId) {
     return dispatch => {
-        dispatch(requestOptIn())
-        return fetch(`${DEV_URL}${groupId}`)
+        dispatch(requestGroup())
+        return fetch(`${DEV_URL}/${campaignName}/${groupId}`)
             .then(response => response.json())
-            .then(json => dispatch(receiveOptIn(json)))
+            .then(json => dispatch(receiveGroup(json)))
     }
 }
 
-export function acceptOptIn(groupId, memberId) {
+export function acceptGroup(campaignName, groupId, memberId) {
     return dispatch => {
-        dispatch(requestOptIn())
-        return fetch(`${DEV_URL}${groupId}/accept/${memberId}`)
+        dispatch(requestGroup())
+        return fetch(`${DEV_URL}/${campaignName}/${groupId}/accept/${memberId}`)
             .then(response => response.json())
-            .then(json => dispatch(receiveOptIn(json)))
+            .then(json => dispatch(receiveGroup(json)))
     }
 }
 
-function shouldFetchOptIn(state, groupId) {
+function shouldFetchGroup(state, groupId) {
     const group = state.hasOwnProperty('data') && state.data.hasOwnProperty('group_id') && state.data['group_id'] === groupId
     if (!group) {
         return true;
@@ -94,16 +105,16 @@ function shouldFetchOptIn(state, groupId) {
     return false;
 }
 
-export function fetchOptInIfNeeded(groupId) {
+export function fetchGroupIfNeeded(campaignName, groupId) {
     return (dispatch, getState) => {
-        if (shouldFetchOptIn(getState(), groupId)) {
-            return dispatch(fetchOptIn(groupId))
+        if (shouldFetchGroup(getState(), groupId)) {
+            return dispatch(fetchGroup(campaignName, groupId))
         }
     }
 }
 
-function shouldFetchCampaign(state, campaign) {
-    const thisCampaign = state.hasOwnProperty('campaign') && state.data.hasOwnProperty('key') && state.data['key'] === campaign;
+function shouldFetchCampaign(state, campaignName) {
+    const thisCampaign = state.hasOwnProperty('campaign') && state.data.hasOwnProperty('key') && state.data['key'] === campaignName;
     if (!thisCampaign) {
         return true;
     } else if (thisCampaign.isFetching) {
@@ -112,10 +123,10 @@ function shouldFetchCampaign(state, campaign) {
     return false;
 }
 
-export function fetchCampaignIfNeeded(campaign) {
+export function fetchCampaignIfNeeded(campaignName) {
     return (dispatch, getState) => {
-        if (shouldFetchCampaign(getState(), campaign)) {
-            return dispatch(getCampaign(campaign))
+        if (shouldFetchCampaign(getState(), campaignName)) {
+            return dispatch(fetchCampaign(campaignName))
         }
     }
 }

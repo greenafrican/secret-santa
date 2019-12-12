@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import { fetchCampaignIfNeeded, acceptOptIn } from '../helpers/actions';
+import { acceptGroup } from '../helpers/actions';
 import Status from './Status';
 import Button from '../components/Button';
 
@@ -18,9 +18,9 @@ class Accept extends Component {
     }
 
     componentDidMount() {
-        const { campaign, groupId, memberId } = this.props.match.params;
-        this.props.fetchCampaignIfNeeded(campaign);
-        this.props.acceptOptIn(groupId, memberId);
+        const { groupId, memberId } = this.props.match.params;
+        const { campaign } = this.props;
+        this.props.acceptGroup(campaign.key, groupId, memberId);
     }
 
     copyLink(groupId) {
@@ -78,24 +78,21 @@ Accept.propTypes = {
     data: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     lastUpdated: PropTypes.number,
-    fetchCampaignIfNeeded: PropTypes.func.isRequired,
-    acceptOptIn: PropTypes.func.isRequired
+    acceptGroup: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
-    const { dataByOptInId, campaignByCampaignName } = state;
+    const { dataByGroupId } = state;
     return {
-        campaign: campaignByCampaignName['campaign'] || {},
-        data: dataByOptInId['data'] || {},
-        isFetching: dataByOptInId['isFetching'] || true,
-        lastUpdated: dataByOptInId['lastUpdated']
+        data: dataByGroupId['data'] || {},
+        isFetching: dataByGroupId['isFetching'] || true,
+        lastUpdated: dataByGroupId['lastUpdated']
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchCampaignIfNeeded: (campaign) => dispatch(fetchCampaignIfNeeded(campaign)),
-        acceptOptIn: (groupId, memberId) => dispatch(acceptOptIn(groupId, memberId))
+        acceptGroup: (campaignName, groupId, memberId) => dispatch(acceptGroup(campaignName, groupId, memberId))
     }
 };
 

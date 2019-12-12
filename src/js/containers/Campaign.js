@@ -11,7 +11,7 @@ import { compose } from 'redux';
 import { fetchCampaignIfNeeded } from '../helpers/actions';
 import Setup from "./Setup";
 import Accept from "./Accept";
-import Optin from "./Optin";
+import Group from "./Optin";
 
 class Campaign extends Component {
     constructor(props) {
@@ -26,6 +26,7 @@ class Campaign extends Component {
         if (Object.keys(this.props.campaign).length === 0 && this.props.campaign.constructor === Object) {
             return null;
         }
+        const { campaign } = this.props;
         const { path } = this.props.match;
         
         // hack to set body background above root component
@@ -36,13 +37,13 @@ class Campaign extends Component {
                 <div className="logo"></div>
                 <Switch>
                     <Route exact path={`${path}/`}>
-                        <Setup />
+                        <Setup campaign={campaign} />
                     </Route>
                     <Route path={`${path}/:groupId/accept/:memberId`}>
-                        <Accept />
+                        <Accept campaign={campaign} />
                     </Route>
                     <Route path={`${path}/optin/:groupId`}>
-                        <Optin />
+                        <Group campaign={campaign} />
                     </Route>
                 </Switch>
             </div>
@@ -65,7 +66,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchCampaignIfNeeded: (campaign) => dispatch(fetchCampaignIfNeeded(campaign))
+        fetchCampaignIfNeeded: (campaignName) => dispatch(fetchCampaignIfNeeded(campaignName))
     }
 };
 

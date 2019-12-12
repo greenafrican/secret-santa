@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import { postOptIn, fetchCampaignIfNeeded } from '../helpers/actions';
+import { postGroup, fetchCampaignIfNeeded } from '../helpers/actions';
 import Textarea from '../components/Textarea';
 import Input from '../components/Input';
 import Button from '../components/Button';
@@ -21,19 +21,20 @@ const originalState = {
     people: [
         {
             name: '',
-            email: ''
+            email: '',
+            state: 'unclear',
+            creator: false
         }
-    ],
-    optin: false,
-    cutoff: new Date()
+    ]
 };
 
 class Setup extends Component {
     constructor(props) {
         super(props);
-        this.state = Object.assign({}, originalState);
+        this.state = Object.assign({}, originalState,  {
+            group: props.campaign.setup.form_custom_fields.find(d => d.key === 'group').default || '',
+        });
         this.handleInput = this.handleInput.bind(this);
-        this.handleSwipe = this.handleSwipe.bind(this);
         this.updatePerson = this.updatePerson.bind(this);
         this.updateCreator = this.updateCreator.bind(this);
         this.addPeople = this.addPeople.bind(this);
@@ -41,10 +42,6 @@ class Setup extends Component {
         this.go = this.go.bind(this);
         this.handleClearForm = this.handleClearForm.bind(this);
         this.handleDate = this.handleDate.bind(this);
-    }
-
-    componentDidMount() {
-        this.props.fetchCampaignIfNeeded(this.props.match.params.campaign);
     }
 
     addPeople(n) {
@@ -79,30 +76,27 @@ class Setup extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    handleSwipe(e) {
-        this.setState({ optin: !this.state.optin });
-    }
-
     go(e) {
+        //TODO: email validation
         e.preventDefault();
         const state = Object.assign({}, this.state);
-        const { group, spend } = state;
+        const { campaign } = this.props;
+        const { group } = state;
         const people = this.state.people.filter(d => (
             d.name !== '' && d.email !== ''
         ));
+
         const creator = Object.assign({}, this.state.creator, {creator: true});
         people.push(creator);
 
         const payload = Object.assign({},
             {
-                cutoff: '2019-12-12',
                 group,
-                spend,
-                optin: true,
+                properties: {},
                 people
             }
         );
-        this.props.postOptIn(payload);
+        this.props.postGroup(payload, campaign.key);
     }
 
     handleClearForm() {
@@ -189,24 +183,21 @@ Setup.propTypes = {
     data: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     lastUpdated: PropTypes.number,
-    postOptIn: PropTypes.func.isRequired,
-    fetchCampaignIfNeeded: PropTypes.func.isRequired,
+    postGroup: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
-    const { dataByOptInId, campaignByCampaignName } = state;
+    const { dataByGroupId } = state;
     return {
-        campaign: campaignByCampaignName['campaign'] || {},
-        data: dataByOptInId['data'] || {},
-        isFetching: dataByOptInId['isFetching'] || true,
-        lastUpdated: dataByOptInId['lastUpdated']
+        data: dataByGroupId['data'] || {},
+        isFetching: dataByGroupId['isFetching'] || true,
+        lastUpdated: dataByGroupId['lastUpdated']
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        postOptIn: (optin) => dispatch(postOptIn(optin)),
-        fetchCampaignIfNeeded: (campaign) => dispatch(fetchCampaignIfNeeded(campaign))
+        postGroup: (group, campaignName) => dispatch(postGroup(group, campaignName))
     }
 };
 

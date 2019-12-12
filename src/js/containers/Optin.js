@@ -4,14 +4,14 @@ import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import { fetchOptInIfNeeded, postMember, fetchCampaignIfNeeded } from '../helpers/actions';
+import { fetchGroupIfNeeded, postMember, fetchCampaignIfNeeded } from '../helpers/actions';
 import Status from './Status';
 import Button from '../components/Button';
 import Person from '../components/Person';
 
 import './optin.scss';
 
-class OptIn extends Component {
+class Optin extends Component {
 
     constructor(props) {
         super(props);
@@ -31,17 +31,18 @@ class OptIn extends Component {
     }
 
     componentDidMount() {
-        const { campaign, groupId } = this.props.match.params;
-        this.props.fetchCampaignIfNeeded(campaign);
-        this.props.fetchOptInIfNeeded(groupId);
+        const { groupId } = this.props.match.params;
+        const { campaign } = this.props;
+        this.props.fetchGroupIfNeeded(campaign.key, groupId);
     }
 
     optIn(e) {
         e.preventDefault();
         const { groupId } = this.props.match.params;
+        const { campaign } = this.props;
         const opter = Object.assign({}, this.state.opter);
-        this.props.postMember(groupId, opter).then(() =>
-            this.props.history.push(`/status/${groupId}`)
+        this.props.postMember(campaign.key, groupId, opter).then(() =>
+            this.props.history.push(`/accept/${groupId}`)
         );
     }
 
@@ -105,35 +106,32 @@ class OptIn extends Component {
     }
 }
 
-OptIn.propTypes = {
+Optin.propTypes = {
     campaign: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     lastUpdated: PropTypes.number,
-    fetchOptInIfNeeded: PropTypes.func.isRequired,
-    postMember: PropTypes.func.isRequired,
-    fetchCampaignIfNeeded: PropTypes.func.isRequired
+    fetchGroupIfNeeded: PropTypes.func.isRequired,
+    postMember: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
-    const { dataByOptInId, campaignByCampaignName } = state;
+    const { dataByGroupId } = state;
     return {
-        campaign: campaignByCampaignName['campaign'] || {},
-        data: dataByOptInId['data'] || {},
-        isFetching: dataByOptInId['isFetching'] || true,
-        lastUpdated: dataByOptInId['lastUpdated']
+        data: dataByGroupId['data'] || {},
+        isFetching: dataByGroupId['isFetching'] || true,
+        lastUpdated: dataByGroupId['lastUpdated']
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchOptInIfNeeded: (groupId) => dispatch(fetchOptInIfNeeded(groupId)),
-        postMember: (groupId, memberId) => dispatch(postMember(groupId, memberId)),
-        fetchCampaignIfNeeded: (campaign) => dispatch(fetchCampaignIfNeeded(campaign))
+        fetchGroupIfNeeded: (campaignName, groupId) => dispatch(fetchGroupIfNeeded(campaignName, groupId)),
+        postMember: (campaignName, groupId, memberId) => dispatch(postMember(campaignName, groupId, memberId))
     }
 };
 
 export default compose(
     withRouter,
     connect(mapStateToProps, mapDispatchToProps)
-)(OptIn);
+)(Optin);
