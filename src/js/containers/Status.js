@@ -28,6 +28,10 @@ class Status extends Component {
                 </div>
             )
         );
+        const delta = parseInt(cutoff.goal) - people.length;
+        const statusMessage = delta > 0
+            ? cutoff.status_text.replace('{goal_difference}', delta)
+            : cutoff.success_text;
         return (
             <div className="status">
                 <div className="crew">
@@ -35,7 +39,7 @@ class Status extends Component {
                     {allTheCrew}
                 </div>
                 <div className="status-text">
-                    <p>{cutoff.status_text.replace('{goal_difference}', parseInt(cutoff.goal) - people.length)}</p>
+                    <p>{statusMessage}</p>
                 </div>
             </div>
         );
