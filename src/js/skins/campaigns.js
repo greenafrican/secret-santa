@@ -1,7 +1,7 @@
 const campaigns = [
     {
         key: "buyfresh",
-        background_color: "#3D3530",
+        background_color: "#312B32",
         title: "Win with Kin & Buyfresh!",
         cutoff: {
             type: "number_of_people",

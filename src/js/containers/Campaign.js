@@ -34,7 +34,6 @@ class Campaign extends Component {
 
         return (
             <div className="campaign-container">
-                <div className="logo"></div>
                 <Switch>
                     <Route exact path={`${path}/`}>
                         <Setup campaign={campaign} />

@@ -1,12 +1,11 @@
 import fetch from 'cross-fetch'
-
+import DEV_URL from '../../../backend';
 import Campaigns from '../skins/campaigns.js';
 
 export const REQUEST_GROUP = 'REQUEST_GROUP';
 export const RECEIVE_GROUP = 'RECEIVE_GROUP';
 export const REQUEST_CAMPAIGN = 'REQUEST_CAMPAIGN';
 export const RECEIVE_CAMPAIGN = 'RECEIVE_CAMPAIGN';
-export const DEV_URL = 'https://c99krn5i75.execute-api.eu-west-1.amazonaws.com/development';
 
 function requestGroup() {
     return {
@@ -120,7 +119,7 @@ function shouldFetchCampaign(state, campaignName) {
     } else if (thisCampaign.isFetching) {
         return false;
     }
-    return false;
+    return true;
 }
 
 export function fetchCampaignIfNeeded(campaignName) {

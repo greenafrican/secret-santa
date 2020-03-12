@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import { acceptGroup } from '../helpers/actions';
+import { acceptGroup, fetchGroupIfNeeded } from '../helpers/actions';
 import Status from './Status';
 import Button from '../components/Button';
 
@@ -20,7 +20,8 @@ class Accept extends Component {
     componentDidMount() {
         const { groupId, memberId } = this.props.match.params;
         const { campaign } = this.props;
-        this.props.acceptGroup(campaign.key, groupId, memberId);
+        this.props.fetchGroupIfNeeded(campaign.key, groupId);
+        // this.props.acceptGroup(campaign.key, groupId, memberId);
     }
 
     copyLink(groupId) {
@@ -78,7 +79,8 @@ Accept.propTypes = {
     data: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     lastUpdated: PropTypes.number,
-    acceptGroup: PropTypes.func.isRequired
+    acceptGroup: PropTypes.func.isRequired,
+    fetchGroupIfNeeded: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -92,7 +94,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        acceptGroup: (campaignName, groupId, memberId) => dispatch(acceptGroup(campaignName, groupId, memberId))
+        acceptGroup: (campaignName, groupId, memberId) => dispatch(acceptGroup(campaignName, groupId, memberId)),
+        fetchGroupIfNeeded: (campaignName, groupId) => dispatch(fetchGroupIfNeeded(campaignName, groupId))
     }
 };
 

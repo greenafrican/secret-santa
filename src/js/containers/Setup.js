@@ -128,13 +128,14 @@ class Setup extends Component {
         return (
             <div className="setup-container">
                 <div className="intro-container">
+                    <div className="logo"></div>
                     <span className="title">{title}</span>
                     <span className="intro">{intros}</span>
                     <div className="campaign-link">
                         <Button action={() => window.open(external_link, " _blank")} title="Check it out" />
                     </div>
-                    <div className="title form-title">{setup.form_title}</div>
                 </div>
+                <div className="title form-title">{setup.form_title}</div>
                 <div className="form-container">
                     <Person
                         className="creator"

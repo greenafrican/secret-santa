@@ -4,13 +4,10 @@ body {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    .theme-buyfresh {
-        background-color: #3D3530;
-    }
 }
 
 .app-container {
-    padding: 40px 0;
+    padding: 0;
 
     .terms {
         margin: 30px auto;
@@ -98,7 +95,7 @@ body {
         height: 24px;
         background-repeat: no-repeat;
         background-size: 100% 100%;
-        margin: 0 auto 30px;
+        margin: 40px auto 30px;
         @include themify($themes) {
             background-image: themed('logo');
         }

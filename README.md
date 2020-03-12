@@ -9,3 +9,8 @@ This is the repository for the internal Kin Opt-In tool, previously named 'Secre
 - `npm run build`
 - `npm run start`
 - Browse to 0.0.0.0:8080/{campaign_name}/
+
+
+![Setup Secret Santa](screenshot1.png)
+
+![Crew so far!](screenshot2.png)
