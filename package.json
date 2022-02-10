@@ -30,7 +30,7 @@
     "cross-fetch": "^3.0.4",
     "css-loader": "^3.2.0",
     "file-loader": "^4.3.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^7.0.0",
     "react": "^16.11.0",
     "react-datepicker": "^2.10.1",
     "react-dom": "^16.11.0",
